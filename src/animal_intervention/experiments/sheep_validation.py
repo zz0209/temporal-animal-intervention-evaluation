@@ -51,6 +51,18 @@ STUDY_PHASE_BY_WEEK = {
 }
 
 
+def _phase_by_week_start(week_one_start: str | pd.Timestamp) -> dict[object, str]:
+    """Build the publication-defined phase calendar from the frozen study start."""
+
+    start = pd.Timestamp(week_one_start).normalize()
+    result: dict[object, str] = {}
+    for week, phase in STUDY_PHASE_BY_WEEK.items():
+        week_start = start + pd.Timedelta(weeks=week - 1)
+        for offset in range(7):
+            result[(week_start + pd.Timedelta(days=offset)).date()] = phase
+    return result
+
+
 def _load_phase_by_date(raw_path: Path) -> dict[object, str]:
     """Return publication-defined study phases for each experimental date.
 
@@ -82,11 +94,15 @@ def _load_phase_by_date(raw_path: Path) -> dict[object, str]:
     )
     if set(week_starts["week"]) != set(STUDY_PHASE_BY_WEEK):
         raise ValueError("Animal measurement table does not define weeks 1 through 9")
-    result: dict[object, str] = {}
-    for row in week_starts.itertuples(index=False):
-        for offset in range(7):
-            result[(row.date + pd.Timedelta(days=offset)).date()] = row.expected_phase
-    return result
+    week_one_start = week_starts.loc[week_starts["week"].eq(1), "date"].iloc[0]
+    expected_starts = {
+        week: week_one_start + pd.Timedelta(weeks=week - 1)
+        for week in STUDY_PHASE_BY_WEEK
+    }
+    observed_starts = dict(zip(week_starts["week"], week_starts["date"], strict=True))
+    if any(observed_starts[week] != expected_starts[week] for week in expected_starts):
+        raise ValueError("Animal measurement study weeks are not seven days apart")
+    return _phase_by_week_start(week_one_start)
 
 
 def _substream(stream: ExposureStream, nodes: set[str], network_id: str) -> ExposureStream:

@@ -51,7 +51,11 @@ from .radolfzell_validation import (
     _observed_group_stream as _observed_radolfzell_stream,
     _prepare_windows as _prepare_radolfzell_windows,
 )
-from .sheep_validation import _load_phase_by_date, _prepare_network_windows
+from .sheep_validation import (
+    _load_phase_by_date,
+    _phase_by_week_start,
+    _prepare_network_windows,
+)
 from .wytham_validation import (
     _host_group_stream,
     _prepare_windows as _prepare_wytham_windows,
@@ -155,9 +159,13 @@ def _load_windows(
         return attach_history(prepared, stream)
     if dataset_id == "domestic_sheep_sirtrack":
         stream = CoalescedDurationContactMapper().compile(dataset)
-        phase_by_date = _load_phase_by_date(
-            Path(source_config["data"]["raw_measurements_path"])
-        )
+        study_start = source_config["data"].get("study_week_one_start")
+        if study_start is not None:
+            phase_by_date = _phase_by_week_start(study_start)
+        else:
+            phase_by_date = _load_phase_by_date(
+                Path(source_config["data"]["raw_measurements_path"])
+            )
         prepared, _ = _prepare_network_windows(
             stream,
             dataset,

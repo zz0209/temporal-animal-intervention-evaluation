@@ -15,6 +15,7 @@ REDISTRIBUTABLE_PROCESSED_DATA = {
     "experimental_wild_songbirds",
     "free_ranging_sheep_fission_fusion",
     "guinea_baboons_sociopatterns",
+    "oxford_wildbird_network",
     "radolfzell_great_tits_ontogeny",
     "wild_vampire_bats_proximity",
     "wytham_great_tits_divorce",
@@ -93,6 +94,11 @@ def collect_files(root: Path) -> list[Path]:
 
 def build_archive(root: Path, output_directory: Path) -> dict[str, object]:
     files = collect_files(root)
+    canonical_release = json.loads(
+        (root / "data" / "_shared" / "canonical_release.json").read_text(
+            encoding="utf-8"
+        )
+    )
     output_directory.mkdir(parents=True, exist_ok=True)
     archive_path = output_directory / f"{RELEASE_ID}.zip"
     manifest_path = output_directory / f"{RELEASE_ID}-manifest.json"
@@ -108,10 +114,10 @@ def build_archive(root: Path, output_directory: Path) -> dict[str, object]:
     manifest = {
         "release_id": RELEASE_ID,
         "base_git_commit": git_head(root),
-        "canonical_data_release": "canonical-20260820-r01",
+        "canonical_data_release": canonical_release["release_id"],
         "raw_third_party_payloads_included": False,
         "processed_data_redistribution": sorted(REDISTRIBUTABLE_PROCESSED_DATA),
-        "excluded_processed_dataset": "oxford_wildbird_network",
+        "excluded_processed_datasets": [],
         "file_count": len(file_records),
         "files": file_records,
     }

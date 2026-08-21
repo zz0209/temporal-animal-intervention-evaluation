@@ -1,8 +1,8 @@
 {
-  "release_id": "canonical-20260816-r01",
-  "created_at_utc": "2026-08-16T03:12:39+00:00",
+  "release_id": "canonical-20260820-r01",
+  "created_at_utc": "2026-08-21T06:30:58+00:00",
   "hash_algorithm": "sha256",
-  "dataset_count": 7,
+  "dataset_count": 9,
   "release_ready": true,
   "datasets": [
     {
@@ -90,6 +90,34 @@
       }
     },
     {
+      "dataset_id": "free_ranging_sheep_fission_fusion",
+      "adapter_name": "FreeRangingSheepAdapter",
+      "adapter_version": "0.1.0",
+      "has_temporal_order": true,
+      "primary_event_mode": "group",
+      "source_manifest_sha256": "674b2913936c010c56db9ac365a3fb2ac681070aa214d7072d0b1c0b7f9541c7",
+      "source_payload_verification_status": "verified",
+      "canonical_validation_has_errors": false,
+      "canonical_counts": {
+        "individuals": 51,
+        "dyadic_events": 0,
+        "group_events": 54281,
+        "group_memberships": 506797,
+        "observation_windows": 51
+      },
+      "processed_files_sha256": {
+        "dataset_metadata.json": "f02a5f850f896fd8b7d94928c5f97ba9a3dd4ae9262c78ef59ff49899a6f2ac4",
+        "dyadic_events.parquet": "7a83df541b7a934f14a8acc11f7855e04cdd23d0856b9ce0908ea246ff5946ca",
+        "group_events.parquet": "f9131c48688a9043cc5ffbc4634840af4719affa9ce5ae062f2075b0c04319e6",
+        "group_memberships.parquet": "bfe9a8bb4f60b0d5c6a420955174e7b37c7ac29423dd4014129d0f0125b965dc",
+        "individuals.parquet": "5a6f26690424d79b5d92445369fc4569510b9de729a84fd5baa75820e5bec970",
+        "manifest_verification.json": "cc9484202ca8950c9c8069ed6d9bb225afb5f8c4d3d18cd21a30b0c05a2dbd44",
+        "observation_windows.parquet": "2af6b64faa8dcb8aa057bc6814845ffba107c2236b5d621f8008b2ef0d8a67a3",
+        "summary.json": "2ecef4db4ded73857020f2e1353f380e0944d1ff76a71979976ba74dd59d4771",
+        "validation_report.json": "8c3c513ba42ebf080992b9fdf95cc102fcca5906516c487c30e63587dbed7ef6"
+      }
+    },
+    {
       "dataset_id": "guinea_baboons_sociopatterns",
       "adapter_name": "GuineaBaboonsAdapter",
       "adapter_version": "0.1.0",
@@ -171,6 +199,34 @@
         "observation_windows.parquet": "a363960994855771559d6c48e7e9d48339f01920515ce17a4b624835655fb591",
         "summary.json": "2c270d0869f9f3d56fb2fbb335f39151fb678bb42aea7b6684dce667015bb71e",
         "validation_report.json": "6699630b2e9cb09936d784791604a651474de0dfbdd81c24b35d6bb6e2900dec"
+      }
+    },
+    {
+      "dataset_id": "wild_vampire_bats_proximity",
+      "adapter_name": "WildVampireBatsAdapter",
+      "adapter_version": "0.1.0",
+      "has_temporal_order": true,
+      "primary_event_mode": "dyadic",
+      "source_manifest_sha256": "a89c53f4cca2256992d2453cc9b0fc3a1685494244b69fc5cbab8d33fdfd045b",
+      "source_payload_verification_status": "verified",
+      "canonical_validation_has_errors": false,
+      "canonical_counts": {
+        "individuals": 31,
+        "dyadic_events": 10519,
+        "group_events": 0,
+        "group_memberships": 0,
+        "observation_windows": 31
+      },
+      "processed_files_sha256": {
+        "dataset_metadata.json": "4d2b9ab73ea0d6481d3530fd777e207210ca940b3daddf0d5e66814e01672d4a",
+        "dyadic_events.parquet": "6bff976473116288f0e5301c2bb596d58c2e98be9b9dc247cfdd48c9be99cc12",
+        "group_events.parquet": "cd89d614a7c3085589c339ab9e1465d302a894562661731f36a9454858b33a9f",
+        "group_memberships.parquet": "f7f017d5bd184e738634857c0010868db323e00033d339f5659b9fd8a75a8256",
+        "individuals.parquet": "940e7140cfb674aad1dfd8a50e5c74acc857e13b9411f58e147eab9858397bdd",
+        "manifest_verification.json": "d39f82e308829086c62edb12318d290a4868d6e663828206c5b7178a0bc267fa",
+        "observation_windows.parquet": "ff218c399d53fd553e83e9ac0ad4ed686c68f3b458c7564af3202b3a0ee9bed7",
+        "summary.json": "82f2086e86de16f47f69ca1683773755df0bcff7a42023b83e77d4f2ee3f9e54",
+        "validation_report.json": "abd8a46ffe72e59f3120796ed2909216d09fef35909d0dd0810e1fb8fa1b461f"
       }
     },
     {

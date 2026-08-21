@@ -22,7 +22,7 @@ python -m pip check
 
 ## Data
 
-The Zenodo archive contains canonical processed tables for redistributable sources. Raw third-party payloads are excluded. Download any missing source archives using `DATA_SOURCES.md`, verify their checksums, place them in `data/<dataset_id>/raw/`, and run the corresponding adapter.
+The Zenodo archive contains all nine canonical processed datasets required by the manuscript analyses. Raw third-party payloads are excluded. Download source archives using `DATA_SOURCES.md`, verify their checksums, place them in `data/<dataset_id>/raw/`, and run the corresponding adapter only when reprocessing from raw data or exercising raw-adapter tests.
 
 Original project code is released under the MIT License. Author-owned portions of derived datasets, result tables, repository figures, and documentation are released under CC BY 4.0. These grants do not relicense third-party material. Source licenses recorded in `DATA_SOURCES.md` remain controlling wherever they apply.
 
@@ -31,6 +31,8 @@ Verify the canonical data boundary with:
 ```bash
 python -m animal_intervention.data.release --verify
 ```
+
+Expected output: `Verified 9 canonical datasets`.
 
 ## Tests
 
@@ -46,7 +48,7 @@ Complete verification with processed data and frozen results:
 python -m pytest -q
 ```
 
-Tests that reopen raw third-party archives are skipped when those payloads are absent. After downloading and checksum-verifying the sources listed in `DATA_SOURCES.md`, the same command exercises every adapter.
+The reviewer release contains 220 automated tests. In the archived environment, 211 pass and nine raw-adapter tests are skipped because third-party raw payloads are not redistributed. After downloading and checksum-verifying the sources listed in `DATA_SOURCES.md`, the same command exercises every adapter.
 
 ## Manuscript evidence rebuild
 

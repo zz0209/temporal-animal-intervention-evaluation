@@ -5,7 +5,10 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from animal_intervention.experiments.sheep_validation import _load_phase_by_date
+from animal_intervention.experiments.sheep_validation import (
+    _load_phase_by_date,
+    _phase_by_week_start,
+)
 
 
 def test_sheep_phase_mapping_uses_publication_defined_weeks(tmp_path: Path) -> None:
@@ -35,7 +38,9 @@ def test_sheep_phase_mapping_uses_publication_defined_weeks(tmp_path: Path) -> N
     pd.DataFrame(rows).to_csv(path, index=False)
 
     mapped = _load_phase_by_date(path)
+    frozen = _phase_by_week_start("2019-06-03")
 
+    assert mapped == frozen
     assert mapped[pd.Timestamp("2019-06-17").date()] == "Pre-patent"
     assert mapped[pd.Timestamp("2019-07-01").date()] == "Patent-parasite"
     assert mapped[pd.Timestamp("2019-07-22").date()] == "Post-parasite"

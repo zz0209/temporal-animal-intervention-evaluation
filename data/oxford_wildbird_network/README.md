@@ -7,6 +7,7 @@
 - Expected published size: 202 nodes, 11,900 temporal edges, six days
 - Download status (2026-08-13): complete; official Network Repository ZIP saved in `raw/`
 - Integrity check: ZIP opens and contains `aves-wildbird-network.edges` plus `readme.html`
-- Reuse terms: Network Repository Creative Commons Attribution-ShareAlike policy; cite both the repository and associated study
+- Reuse terms: Network Repository Creative Commons Attribution-ShareAlike policy. The policy page does not state a version number. Cite the Network Repository paper, the dataset page, and the associated study.
+- Redistributed derivatives: canonical processed tables are included in the reviewer archive under the same Attribution-ShareAlike terms. See `ATTRIBUTION_AND_LICENSE.md` for attribution, transformation details, and checksum locations.
 
 `raw/` is immutable source material. Derived files belong in `interim/` or `processed/`.

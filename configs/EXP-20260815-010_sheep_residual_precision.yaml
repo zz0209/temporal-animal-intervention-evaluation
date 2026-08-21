@@ -7,6 +7,7 @@ experiment:
 data:
   canonical_path: data/domestic_sheep_sirtrack/processed
   raw_measurements_path: data/domestic_sheep_sirtrack/raw/Animal_measurements_data_Amorris_2023.csv
+  study_week_one_start: 2019-06-03
 
 windows:
   lookback: 14d

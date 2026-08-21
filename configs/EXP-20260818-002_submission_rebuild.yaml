@@ -5,7 +5,7 @@ experiment:
   description: Rebuild the complete manuscript-facing evidence chain in an empty isolated output tree and compare scientific artifacts with the frozen originals.
 
 design:
-  frozen_upstream_boundary: canonical-20260816-r01 and precision-audited model_ready_labels_v2
+  frozen_upstream_boundary: canonical-20260820-r01 and precision-audited model_ready_labels_v2
   clean_root: reproducibility/EXP-20260818-002
   numeric_atol: 1.0e-10
   numeric_rtol: 1.0e-10

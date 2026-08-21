@@ -36,13 +36,10 @@ EXCLUDED_DIRECTORY_NAMES = {
     ".pytest_cache",
     ".venv",
     "__pycache__",
-    "checkpoints",
     "dist",
-    "interim",
-    "models",
-    "raw",
-    "reproducibility",
 }
+EXCLUDED_DATA_DIRECTORY_NAMES = {"interim", "raw"}
+EXCLUDED_RESULT_DIRECTORY_NAMES = {"checkpoints", "models", "reproducibility"}
 EXCLUDED_SUFFIXES = {".ckpt", ".onnx", ".pth", ".pt", ".pyc", ".tmp"}
 
 
@@ -64,6 +61,14 @@ def include_path(root: Path, path: Path) -> bool:
     relative = path.relative_to(root)
     parts = relative.parts
     if any(part in EXCLUDED_DIRECTORY_NAMES for part in parts):
+        return False
+    if parts[0] == "data" and any(
+        part in EXCLUDED_DATA_DIRECTORY_NAMES for part in parts[1:]
+    ):
+        return False
+    if parts[0] == "results" and any(
+        part in EXCLUDED_RESULT_DIRECTORY_NAMES for part in parts[1:]
+    ):
         return False
     if path.suffix.lower() in EXCLUDED_SUFFIXES:
         return False

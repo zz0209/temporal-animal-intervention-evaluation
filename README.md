@@ -75,7 +75,7 @@ The smoke profile verifies orchestration and artifact contracts from the reviewe
 
 ## Generate publication figures
 
-The six main figures and supplementary figures are generated from the frozen family-level result tables.
+The three main figures and five supplementary figures are generated from the frozen family-level result tables.
 
 ```bash
 python -m animal_intervention.experiments.publication_figures

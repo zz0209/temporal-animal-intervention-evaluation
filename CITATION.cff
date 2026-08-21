@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: Prospective evaluation of individual and joint epidemic interventions across temporal animal networks
+message: Please cite the accompanying article and all datasets used in an analysis.
+type: software
+authors:
+  - family-names: Zhu
+    given-names: Zi
+    affiliation: Harvard T.H. Chan School of Public Health, Harvard University
+    email: zizhu@hsph.harvard.edu
+  - family-names: Hou
+    given-names: Ruo Yan
+    affiliation: Boston University Aram V. Chobanian & Edward Avedisian School of Medicine
+    email: sunnyhou@bu.edu
+version: 1.0.0
+date-released: 2026-08-20
+repository-code: https://github.com/zz0209/temporal-animal-intervention-evaluation
+

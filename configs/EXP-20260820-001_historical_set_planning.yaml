@@ -1,0 +1,55 @@
+experiment:
+  id: EXP-20260820-001
+  name: historical_counterfactual_set_planning
+  evidence_level: frozen_prospective_joint_set_planning_test
+  description: Test whether joint intervention-set optimization on a recent historical temporal replay improves equal-capacity policy value on unseen future contacts.
+
+data:
+  stable_prediction_path: results/EXP-20260816-006/full/forward_predictions.csv
+  datasets:
+    oxford_wildbird_network: {source_config: configs/EXP-20260814-003_oxford_predefense.yaml, source_results: results/EXP-20260814-003/full, network_id: all, system_family: oxford_wildbird_network, analysis_cluster: anchor}
+    guinea_baboons_sociopatterns: {source_config: configs/EXP-20260814-004_baboon_validation.yaml, source_results: results/EXP-20260814-004/full, network_id: all, system_family: guinea_baboons_sociopatterns, analysis_cluster: anchor}
+    domestic_sheep_sirtrack: {source_config: configs/EXP-20260815-009_sheep_precision_repaired.yaml, source_results: results/EXP-20260815-009/full, system_family: domestic_sheep_sirtrack, analysis_cluster: network}
+    wytham_great_tits_divorce: {source_config: configs/EXP-20260815-007_wytham_precision_repaired.yaml, source_results: results/EXP-20260815-007/full, system_family: linked_wytham_songbird_family, analysis_cluster: anchor}
+    radolfzell_great_tits_ontogeny: {source_config: configs/EXP-20260815-011_radolfzell_validation.yaml, source_results: results/EXP-20260815-011/full, network_id: radolfzell_longitudinal_population, system_family: radolfzell_great_tits_ontogeny, analysis_cluster: anchor}
+    experimental_wild_songbirds: {source_config: configs/EXP-20260816-001_experimental_songbirds_validation.yaml, source_results: results/EXP-20260816-001/full, network_id: wytham_songbird_manipulation_population, system_family: linked_wytham_songbird_family, analysis_cluster: anchor}
+
+decision:
+  response_budget_fraction: 0.05
+  minimum_budget: 1
+  maximum_planning_budget: 2
+  pool_multiplier: 1
+  maximum_candidate_pool: 4
+  residual_contact_multiplier: 0.25
+  epidemic_models:
+    - {name: temporal_sir}
+    - {name: temporal_seir_erlang, latent_period_fraction_of_mean_infectious_period: 0.5, latent_stages: 2, infectious_stages: 3}
+
+evaluation:
+  parameter_pool: informative
+  parameter_selection_mode: median
+  bootstrap_replicates: 4000
+  seed: 2026082001
+  primary_estimand: future family-equal gain of history-replay joint set optimization over stable and static case-ring sets at equal capacity
+  structural_estimand: split-block replicated submodularity violations on the pre-anchor replay set function
+  stop_rule: do not tune the candidate pool, budget cap, replay duration, epidemic parameters, or selectors after full outcomes
+
+profiles:
+  smoke:
+    datasets: [oxford_wildbird_network, guinea_baboons_sociopatterns]
+    max_anchors_per_dataset: 1
+    seeds_per_anchor: 1
+    history_blocks: 2
+    future_blocks: 2
+    bootstrap_replicates: 100
+    render_dpi: 110
+  full:
+    datasets: [oxford_wildbird_network, guinea_baboons_sociopatterns, domestic_sheep_sirtrack, wytham_great_tits_divorce, radolfzell_great_tits_ontogeny, experimental_wild_songbirds]
+    max_anchors_per_dataset: 3
+    seeds_per_anchor: 2
+    history_blocks: 8
+    future_blocks: 8
+    render_dpi: 180
+
+execution: {resume: true}
+outputs: {results_root: results, report_root: reports/historical_set_planning}

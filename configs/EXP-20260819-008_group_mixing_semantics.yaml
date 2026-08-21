@@ -1,0 +1,77 @@
+experiment:
+  id: EXP-20260819-008
+  name: group_mixing_semantics
+  evidence_level: frozen_measurement_semantics_sensitivity
+  description: Test whether group-event conclusions depend on frequency-dependent versus hazard-normalized undiluted-clique transmission semantics.
+
+data:
+  source_policy_worlds: results/EXP-20260818-008/full/policy_worlds.csv.gz
+  source_random_replicates: results/EXP-20260819-007/full/random_target_replicates.csv.gz
+  stable_prediction_path: results/EXP-20260816-006/full/forward_predictions.csv
+  datasets:
+    wytham_great_tits_divorce:
+      source_config: configs/EXP-20260815-007_wytham_precision_repaired.yaml
+      source_results: results/EXP-20260815-007/full
+      system_family: linked_wytham_songbird_family
+    radolfzell_great_tits_ontogeny:
+      source_config: configs/EXP-20260815-011_radolfzell_validation.yaml
+      source_results: results/EXP-20260815-011/full
+      network_id: radolfzell_longitudinal_population
+      system_family: radolfzell_great_tits_ontogeny
+    experimental_wild_songbirds:
+      source_config: configs/EXP-20260816-001_experimental_songbirds_validation.yaml
+      source_results: results/EXP-20260816-001/full
+      network_id: wytham_songbird_manipulation_population
+      system_family: linked_wytham_songbird_family
+
+decision:
+  primary_group_mixing: frequency_dependent
+  sensitivity_group_mixing: undiluted_clique
+  normalization: divide beta by the future member-time-weighted mean number of co-members
+  sentinel_budget_fraction: 0.05
+  response_budget_fraction: 0.05
+  minimum_budget: 1
+  action_delay_fraction_of_mean_infectious_period: 0.1
+  residual_contact_multiplier: 0.25
+  early_detection_threshold_fraction: 0.10
+  epidemic_models:
+    - name: temporal_sir
+    - name: temporal_seir_erlang
+      latent_period_fraction_of_mean_infectious_period: 0.5
+      latent_stages: 2
+      infectious_stages: 3
+
+evaluation:
+  parameter_pool: informative
+  parameter_selection_mode: median
+  seed: 2026081808
+  primary_estimand: change in history-response avoided attack rate under the alternative group-event transmission mapping
+  severity_check: compare realized baseline attack rate after analytic hazard normalization; do not tune normalization to intervention outcomes
+  interpretation: descriptive sensitivity across three datasets but only two independent bird-system families
+  stop_rule: no outcome-dependent adjustment of normalization, disease parameters, policies, budgets, or dataset inclusion after full results
+
+profiles:
+  smoke:
+    datasets: [wytham_great_tits_divorce, radolfzell_great_tits_ontogeny]
+    max_anchors_per_dataset: 1
+    seeds_per_anchor: 1
+    random_blocks: 1
+    random_target_replicates: 2
+    render_dpi: 110
+  full:
+    datasets:
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+      - experimental_wild_songbirds
+    max_anchors_per_dataset: null
+    seeds_per_anchor: 2
+    random_blocks: 2
+    random_target_replicates: 4
+    render_dpi: 180
+
+execution:
+  resume: true
+
+outputs:
+  results_root: results
+  report_root: reports/group_mixing_semantics

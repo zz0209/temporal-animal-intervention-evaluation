@@ -1,0 +1,75 @@
+experiment:
+  id: EXP-20260816-005
+  name: corrected_temporal_information_audit
+  evidence_level: exploratory_repaired_ablation
+  description: Repair shuffled-order inference and audit distinct temporal information channels.
+
+data:
+  label_path: results/EXP-20260815-001/full/model_ready_labels.csv
+  canonical_root: data
+  datasets:
+    - oxford_wildbird_network
+    - guinea_baboons_sociopatterns
+    - domestic_sheep_sirtrack
+    - wytham_great_tits_divorce
+    - radolfzell_great_tits_ontogeny
+    - experimental_wild_songbirds
+  parameter_selection_paths:
+    oxford_wildbird_network: results/EXP-20260814-003/full/parameter_selection.csv
+    guinea_baboons_sociopatterns: results/EXP-20260814-004/full/parameter_selection.csv
+    domestic_sheep_sirtrack: results/EXP-20260815-009/full/parameter_selection.csv
+    wytham_great_tits_divorce: results/EXP-20260815-007/full/parameter_selection.csv
+    radolfzell_great_tits_ontogeny: results/EXP-20260815-011/full/parameter_selection.csv
+    experimental_wild_songbirds: results/EXP-20260816-001/full/parameter_selection.csv
+
+temporal:
+  attenuation: 0.05
+  primary_event_time_rule: end
+  event_time_sensitivity:
+    - start
+    - midpoint
+    - end
+  simultaneous_batch_rule: one_transition_per_batch
+  group_event_rule: intact_frequency_dependent_hyper_event
+  shuffle_rule: permute_intact_simultaneous_batches
+  exposure_gain_rule: mean_one_minus_exp_negative_beta_integrated_exposure
+
+evaluation:
+  split: leave_one_independent_animal_system_out
+  linked_outer_fold:
+    - wytham_great_tits_divorce
+    - experimental_wild_songbirds
+  top_fraction: 0.20
+  ridge_alpha: 1.0
+  random_seed: 20260816
+  bootstrap_replicates: 2000
+  bootstrap_units:
+    - system_family
+    - dataset_id
+    - network_id
+    - anchor_time
+    - shuffle_replicate
+
+interpretation:
+  primary_order_methods:
+    - exposure_communicability_broadcast
+    - exposure_communicability_receive
+  minimum_positive_family_fraction: 0.60
+  note: A positive order result requires a blocked interval above zero and support in at least three of five independent families.
+
+profiles:
+  smoke:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+    max_contexts_per_dataset: 1
+    shuffle_replicates: 4
+  full:
+    max_contexts_per_dataset: null
+    shuffle_replicates: 32
+
+outputs:
+  results_root: results
+  report_root: reports/baselines

@@ -1,0 +1,46 @@
+experiment:
+  id: EXP-20260820-010
+  name: expanded_stable_dynamic_forward
+  evidence_level: engineering_forward_evaluation
+  description: Repeat the unchanged forward-time prediction evaluation across six independent animal-system families with identifiable individual labels.
+
+data:
+  label_path: results/EXP-20260820-008/full/model_ready_labels.csv
+  history_feature_path: results/EXP-20260820-009/full/history_features.csv
+
+evaluation:
+  split: expanding_window_within_dataset
+  min_prior_anchor_times: 2
+  target_rank: robust_priority_percentile
+  decision_outcome: robust_intervention_value
+  top_fraction: 0.20
+  ridge_alpha: 1.0
+  random_seed: 20260820
+  bootstrap_replicates: 4000
+  linked_outer_family: [wytham_great_tits_divorce, experimental_wild_songbirds]
+  comparisons:
+    stable_over_random: [stable_watchlist, random]
+    current_composite_over_stable: [current_composite, stable_watchlist]
+    ridge_current_over_static: [forward_ridge_current, forward_ridge_static]
+    hybrid_over_stable: [forward_ridge_hybrid, stable_watchlist]
+    hybrid_over_current: [forward_ridge_hybrid, forward_ridge_current]
+    oracle_over_hybrid: [future_oracle, forward_ridge_hybrid]
+
+profiles:
+  smoke:
+    datasets: [oxford_wildbird_network, wild_vampire_bats_proximity]
+    max_anchor_times: 3
+  full:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+      - experimental_wild_songbirds
+      - wild_vampire_bats_proximity
+    max_anchor_times: null
+
+outputs:
+  results_root: results
+  report_root: reports/baselines

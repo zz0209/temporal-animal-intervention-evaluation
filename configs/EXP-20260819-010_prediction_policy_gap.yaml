@@ -1,0 +1,23 @@
+experiment:
+  id: EXP-20260819-010
+  name: prediction_policy_gap
+  evidence_level: post_hoc_explanatory_synthesis_of_frozen_experiments
+  description: Join frozen strictly-forward prediction, endogenous response and immediate response evidence to test whether predictable singleton importance translates to robust set-policy gains.
+
+data:
+  prediction_summary: results/EXP-20260816-006/full/strategy_difference_summary.csv
+  endogenous_response_summary: results/EXP-20260819-007/full/contrast_summary.csv
+  immediate_response_summary: results/EXP-20260819-009/full/contrast_summary.csv
+
+interpretation:
+  status: explanatory synthesis, not a new preregistered outcome test
+  claim: singleton intervention importance can be forecast from history while equal-capacity set targeting remains non-robust; response capacity is more transportable than fine ranking
+  forbidden_claim: history is useless, random targeting is optimal, or the simulation effects are field causal effects
+
+profiles:
+  full:
+    render_dpi: 180
+
+outputs:
+  results_root: results
+  report_root: reports/prediction_policy_gap

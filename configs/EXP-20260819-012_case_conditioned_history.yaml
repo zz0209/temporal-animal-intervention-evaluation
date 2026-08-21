@@ -1,0 +1,114 @@
+experiment:
+  id: EXP-20260819-012
+  name: case_conditioned_history_response
+  evidence_level: frozen_final_case_conditioned_policy_test
+  description: Test whether identifying the index case makes pre-anchor temporal contacts operationally useful for an immediate equal-capacity response on unseen future contacts.
+
+data:
+  stable_prediction_path: results/EXP-20260816-006/full/forward_predictions.csv
+  reference_worlds_path: results/EXP-20260819-011/full/policy_worlds.csv.gz
+  datasets:
+    oxford_wildbird_network:
+      source_config: configs/EXP-20260814-003_oxford_predefense.yaml
+      source_results: results/EXP-20260814-003/full
+      network_id: all
+      system_family: oxford_wildbird_network
+      analysis_cluster: anchor
+    guinea_baboons_sociopatterns:
+      source_config: configs/EXP-20260814-004_baboon_validation.yaml
+      source_results: results/EXP-20260814-004/full
+      network_id: all
+      system_family: guinea_baboons_sociopatterns
+      analysis_cluster: anchor
+    domestic_sheep_sirtrack:
+      source_config: configs/EXP-20260815-009_sheep_precision_repaired.yaml
+      source_results: results/EXP-20260815-009/full
+      system_family: domestic_sheep_sirtrack
+      analysis_cluster: network
+    wytham_great_tits_divorce:
+      source_config: configs/EXP-20260815-007_wytham_precision_repaired.yaml
+      source_results: results/EXP-20260815-007/full
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+    radolfzell_great_tits_ontogeny:
+      source_config: configs/EXP-20260815-011_radolfzell_validation.yaml
+      source_results: results/EXP-20260815-011/full
+      network_id: radolfzell_longitudinal_population
+      system_family: radolfzell_great_tits_ontogeny
+      analysis_cluster: anchor
+    experimental_wild_songbirds:
+      source_config: configs/EXP-20260816-001_experimental_songbirds_validation.yaml
+      source_results: results/EXP-20260816-001/full
+      network_id: wytham_songbird_manipulation_population
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+
+decision:
+  detection: index case confirmed at anchor
+  action_delay: zero
+  response_budget_fraction: 0.05
+  minimum_budget: 1
+  residual_contact_multiplier: 0.25
+  diversity_response:
+    enabled: false
+  case_conditioned_history:
+    enabled: true
+    primary_selector: prioritize pre-anchor contacts of the confirmed index case by exponentially recency-decayed mapped exposure, then fill unused capacity with the frozen stable watchlist
+    static_ablation: prioritize the same index contacts by total mapped exposure without time decay, then use the same fallback
+    recency_half_life_fraction: 1.0
+    rationale: the pathogen mean infectious period supplies a prespecified temporal scale rather than an outcome-tuned decay constant
+  epidemic_models:
+    - name: temporal_sir
+    - name: temporal_seir_erlang
+      latent_period_fraction_of_mean_infectious_period: 0.5
+      latent_stages: 2
+      infectious_stages: 3
+
+evaluation:
+  parameter_pool: informative
+  parameter_selection_mode: median
+  independent_replication_unit: animal_system_family
+  bootstrap_replicates: 4000
+  seed: 2026081808
+  primary_estimand: family-equal avoided attack rate of the recent case-conditioned history ring relative to both the frozen stable list and the mean of eight equal-capacity random lists
+  secondary_estimand: family-equal recent-ring increment over an otherwise identical static total-exposure ring
+  primary_gate:
+    strong: both primary contrasts have positive intervals and at least four of five positive family means in both epidemic models
+    directional: both primary contrasts have positive means and at least four of five positive family means in both epidemic models but at least one interval crosses zero
+    unsupported: otherwise
+  temporal_gate:
+    strong: recent ring has a positive interval and at least four of five positive family means over static ring in both epidemic models
+    directional: both means are positive with at least four of five positive family means but at least one interval crosses zero
+    unsupported: otherwise
+  interpretation: a zero-delay operational upper bound for using an identified case to update a preparedness list from past contacts; it is not field evidence for a named pathogen or perfect tracing
+  stop_rule: do not tune recency decay, fallback, budget, disease parameters, mapping, family inclusion or gates after full outcomes; no additional case-conditioned selector is authorized in this study
+
+profiles:
+  smoke:
+    datasets: [oxford_wildbird_network, domestic_sheep_sirtrack]
+    max_anchors_per_dataset: 1
+    seeds_per_anchor: 1
+    random_blocks: 1
+    random_target_replicates: 2
+    bootstrap_replicates: 100
+    render_dpi: 110
+  full:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+      - experimental_wild_songbirds
+    max_anchors_per_dataset: null
+    seeds_per_anchor: 2
+    random_blocks: 2
+    random_target_replicates: 8
+    render_dpi: 180
+
+execution:
+  resume: true
+
+outputs:
+  results_root: results
+  report_root: reports/case_conditioned_history

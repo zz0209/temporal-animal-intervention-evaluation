@@ -1,0 +1,13 @@
+{
+  "dataset_id": "domestic_sheep_sirtrack",
+  "accessed": "2026-08-13",
+  "canonical_source": "https://doi.org/10.5061/dryad.vhhmgqp15",
+  "download_source": "https://doi.org/10.5281/zenodo.10048889",
+  "status": "complete",
+  "files": [
+    {"path": "raw/Animal_measurements_data_Amorris_2023.csv", "bytes": 53387, "sha256": "3523fd2dc82512406d487b34197cc408551408c07139219390acfbc537927a3d"},
+    {"path": "raw/Behaviour_data_Amorris_2023.csv", "bytes": 60696176, "sha256": "ce3189af97c13977f941e6230908f6c16b4032184c18632e7a80196e49a05bc7"},
+    {"path": "raw/README_source.md", "bytes": 1728, "sha256": "c8497b264922466e1c22ab2e7bd3a16a5d025f74877f14f282e86c8f4028a6cf"}
+  ],
+  "verification": "All three local SHA-256 values match the digests in Dryad's official file manifest."
+}

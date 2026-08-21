@@ -1,0 +1,43 @@
+experiment:
+  id: EXP-20260816-003
+  name: history_only_baseline_audit
+  evidence_level: baseline_validation
+  description: Repair and audit deployment-safe history-only intervention-priority baselines.
+
+profile: full
+
+data:
+  label_path: results/EXP-20260815-001/full/model_ready_labels.csv
+  canonical_root: data
+  datasets:
+    - oxford_wildbird_network
+    - guinea_baboons_sociopatterns
+    - domestic_sheep_sirtrack
+    - wytham_great_tits_divorce
+    - radolfzell_great_tits_ontogeny
+    - experimental_wild_songbirds
+
+evaluation:
+  split: leave_one_independent_animal_system_out
+  linked_outer_fold:
+    - wytham_great_tits_divorce
+    - experimental_wild_songbirds
+  supervised_target: robust_priority_percentile
+  outcome_metric: robust_intervention_value
+  intended_use: ranking_only
+  top_fraction: 0.20
+  ridge_alpha: 1.0
+  random_seed: 20260816
+
+profiles:
+  smoke:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+    max_contexts_per_dataset: 1
+  full:
+    max_contexts_per_dataset: null
+
+outputs:
+  results_root: results
+  report_root: reports/baselines

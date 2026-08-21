@@ -1,0 +1,26 @@
+experiment:
+  id: EXP-20260820-014
+  name: expanded_finite_family_robustness
+  evidence_level: independent_system_robustness_reanalysis
+  description: Recompute family effects and deletion diagnostics after adding two independent animal systems.
+
+data:
+  individual_differences: results/EXP-20260820-010/full/strategy_differences.csv
+  case_worlds: results/EXP-20260820-013/full/policy_worlds.csv.gz
+  case_contrasts: results/EXP-20260820-013/full/paired_decomposition.csv.gz
+  forecast_contrasts: results/EXP-20260820-012/full/heldout_contrasts.csv.gz
+
+analysis:
+  individual_comparison: stable_over_random
+  individual_outcomes: [spearman_gain, value_capture_gain]
+  case_contrast: recent_ring_vs_random
+  forecast_contrast: forecast_oracle_vs_history
+  forecast_model: temporal_seir_erlang
+  tie_credit: 0.5
+  expected_case_families: 7
+  expected_forecast_families: 6
+
+outputs:
+  results_root: results
+  report_root: reports/finite_family_robustness
+  manuscript_figure_path: paper/figures/FigS1.png

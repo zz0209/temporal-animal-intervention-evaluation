@@ -1,0 +1,56 @@
+experiment:
+  id: EXP-20260819-002
+  name: rolling_surveillance_calibration
+  evidence_level: prospectively_locked_follow_up_to_failed_universal_dose_transport
+  description: Test whether a small, strictly historical within-system simulation calibration converts the universal nominal surveillance-dose curve into an accurate forward early-detection forecast.
+
+data:
+  effective_dose_worlds: results/EXP-20260819-001/full/effective_dose_worlds.csv.gz
+  universal_loso_predictions: results/EXP-20260819-001/full/loso_predictions.csv.gz
+  prerequisite_audit: results/EXP-20260819-001/full/audit.json
+
+design:
+  independent_replication_unit: animal_system_family
+  temporal_split: each evaluation row may use only strictly earlier anchor times from the same animal-system family
+  minimum_prior_anchor_times: 2
+  primary_dose: nominal_effective_dose
+  secondary_dose: network_effective_dose
+  zero_history_boundary: systems with fewer than three distinct anchor times are reported as not self-calibratable and are excluded from the rolling primary estimate
+  fit_curve: one_minus_exp_negative_rate_times_dose
+  parameter_grid:
+    minimum: 0.01
+    maximum: 1000.0
+    points: 4000
+
+evaluation:
+  epidemic_models:
+    - temporal_sir
+    - temporal_seir_erlang
+  primary_comparison: universal_nominal_error_minus_rolling_nominal_error
+  detection_loss: brier_score
+  avoidable_burden_loss: downstream_case_weighted_absolute_error
+  bootstrap_replicates: 10000
+  seed: 2026081902
+  strong_gate: rolling nominal calibration has a family-bootstrap 95 percent interval lower bound above zero and at least three of four recurrent families improve for both endpoints in both epidemic models
+  directional_gate: rolling nominal calibration has positive family-equal mean improvement and at least three of four recurrent families improve for both endpoints in both epidemic models
+  secondary_question: after local calibration, does historical exposure coverage improve on nominal coverage without changing the primary decision
+  stop_rule: do not change warm-up length, temporal split, dose definitions, curve, endpoints, gates, or source worlds after full outcomes
+
+profiles:
+  smoke:
+    recurrent_families: 2
+    epidemic_models:
+      - temporal_sir
+    bootstrap_replicates: 200
+    render_dpi: 110
+  full:
+    recurrent_families: null
+    epidemic_models:
+      - temporal_sir
+      - temporal_seir_erlang
+    bootstrap_replicates: 10000
+    render_dpi: 180
+
+outputs:
+  results_root: results
+  report_root: reports/rolling_surveillance_calibration

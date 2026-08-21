@@ -1,0 +1,69 @@
+contract_version: 2.0.0
+name: robust_singleton_intervention_value
+
+unit_of_analysis:
+  row: dataset_network_anchor_candidate
+  unique_key:
+    - dataset_id
+    - network_id
+    - anchor_time
+    - candidate_id
+  anchor_aggregation: none
+  candidate_population: history_eligible_animals
+
+outcome:
+  primary: unconditional_avoided_attack_rate
+  definition: paired_baseline_final_attack_rate_minus_intervention_final_attack_rate
+  negative_values: retain
+
+epidemic_scenario_aggregation:
+  selection: predeclared_non_degenerate_scenarios
+  weighting: equal
+  primary_label: mean_across_selected_scenarios
+  retain_scenario_specific_values: true
+
+uncertainty:
+  random_block_definition: independent_keyed_monte_carlo_world_set
+  random_repeats: retain_block_standard_deviation_and_aggregate_label_reliability
+  disease_scenarios: retain_observed_standard_deviation_and_range
+  exact_top_k_membership: diagnostic_only
+
+cross_dataset_interface:
+  primary_numeric_target: robust_intervention_value
+  primary_numeric_target_unit: proportion_of_outcome_population_avoided
+  relative_target: robust_priority_percentile
+  required_provenance:
+    - label_contract_version
+    - dataset_id
+    - network_id
+    - experiment_id
+    - profile
+    - history_start
+    - anchor_time
+    - horizon_end
+    - eligible_population
+    - outcome_population
+    - primary_mapper
+    - beta_unit
+    - intervention_type
+    - random_block_count
+    - introduction_sampling
+  compound_entity_key:
+    - dataset_id
+    - candidate_id
+  dataset_specific_by_design:
+    - observation_mapper
+    - beta_unit_and_calibration
+    - lookback_and_horizon_duration
+    - eligible_population
+    - index_case_sampling_fraction
+
+deployment_boundary:
+  allowed_features: interactions_at_or_before_anchor
+  forbidden_features: future_contacts_or_future_epidemic_outcomes
+  label_construction_only: observed_future_contact_replay
+
+interpretation:
+  target: relative_expected_singleton_intervention_value
+  not_claimed: field_observed_causal_effect
+  fixed_permanent_top_k_required: false

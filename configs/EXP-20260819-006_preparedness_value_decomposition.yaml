@@ -1,0 +1,33 @@
+experiment:
+  id: EXP-20260819-006
+  name: preparedness_value_decomposition
+  evidence_level: fixed_path_synthesis_reanalysis
+  description: Decompose an operational preparedness path into sentinel placement, response capacity, response targeting, and residual full-surveillance opportunity.
+
+data:
+  role_policy_worlds: results/EXP-20260818-008/full/policy_worlds.csv.gz
+  matched_response_worlds: results/EXP-20260819-005/full/response_worlds.csv.gz
+
+evaluation:
+  independent_replication_unit: animal_system_family
+  bootstrap_replicates: 4000
+  seed: 2026081906
+  operational_path:
+    - random__case_only
+    - history_weight__case_only
+    - history_coverage__case_only
+    - history_coverage__random
+    - history_coverage__history_weight
+    - full_surveillance__history_weight
+  interpretation:
+    sentinel_history: random sentinels to top-history sentinels
+    sentinel_coverage_specialization: top-history sentinels to coverage-diverse sentinels
+    response_capacity: cases-only response to equal-capacity random additional targets
+    response_targeting: random additional targets to history-ranked additional targets
+    full_surveillance_opportunity: residual gap to the non-resource-matched full-surveillance ceiling
+  status: synthesis reanalysis; component order was fixed before formal bootstrap reporting but after source experiments were observed
+
+outputs:
+  results_root: results
+  report_root: reports/preparedness_value_decomposition
+  render_dpi: 180

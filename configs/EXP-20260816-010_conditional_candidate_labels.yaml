@@ -1,0 +1,83 @@
+experiment:
+  id: EXP-20260816-010
+  name: conditional_candidate_value_learnability_gate
+  description: Generate outbreak-time candidate intervention values using only pre-decision observable features.
+
+data:
+  stable_prediction_path: results/EXP-20260816-006/full/forward_predictions.csv
+  datasets:
+    oxford_wildbird_network:
+      source_config: configs/EXP-20260814-003_oxford_predefense.yaml
+      source_results: results/EXP-20260814-003/full
+      network_id: all
+      system_family: oxford_wildbird_network
+    guinea_baboons_sociopatterns:
+      source_config: configs/EXP-20260814-004_baboon_validation.yaml
+      source_results: results/EXP-20260814-004/full
+      network_id: all
+      system_family: guinea_baboons_sociopatterns
+    domestic_sheep_sirtrack:
+      source_config: configs/EXP-20260815-009_sheep_precision_repaired.yaml
+      source_results: results/EXP-20260815-009/full
+      system_family: domestic_sheep_sirtrack
+    wytham_great_tits_divorce:
+      source_config: configs/EXP-20260815-007_wytham_precision_repaired.yaml
+      source_results: results/EXP-20260815-007/full
+      system_family: linked_wytham_songbird_family
+    radolfzell_great_tits_ontogeny:
+      source_config: configs/EXP-20260815-011_radolfzell_validation.yaml
+      source_results: results/EXP-20260815-011/full
+      network_id: radolfzell_longitudinal_population
+      system_family: radolfzell_great_tits_ontogeny
+    experimental_wild_songbirds:
+      source_config: configs/EXP-20260816-001_experimental_songbirds_validation.yaml
+      source_results: results/EXP-20260816-001/full
+      network_id: wytham_songbird_manipulation_population
+      system_family: linked_wytham_songbird_family
+
+decision:
+  tracing_half_life_fraction_of_mean_infectious_period: 0.5
+  detection_profiles:
+    - name: early_detection
+      delay_fraction_of_mean_infectious_period: 0.25
+    - name: delayed_detection
+      delay_fraction_of_mean_infectious_period: 0.75
+  evidence_profiles:
+    - name: trigger_only
+      secondary_case_sensitivity: 0.0
+    - name: partial_secondary_detection
+      secondary_case_sensitivity: 0.5
+
+evaluation:
+  seed: 2026081610
+  gate:
+    minimum_datasets_with_variable_contexts: 2
+    minimum_variable_context_fraction: 0.25
+
+profiles:
+  smoke:
+    datasets:
+      - oxford_wildbird_network
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+    max_anchors_per_dataset: 1
+    seeds_per_anchor: 2
+    minimum_datasets_with_variable_contexts: 2
+  pilot:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+      - experimental_wild_songbirds
+    max_anchors_per_dataset: 1
+    seeds_per_anchor: 3
+    minimum_datasets_with_variable_contexts: 3
+
+execution:
+  resume: true
+
+outputs:
+  results_root: results
+  report_root: reports/learnability

@@ -1,0 +1,53 @@
+experiment:
+  id: EXP-20260815-006
+  name: wytham_balanced_non_index_precision_pilot
+  evidence_level: monte_carlo_design_validation
+  source_experiment_id: EXP-20260815-005
+
+data:
+  canonical_path: data/wytham_great_tits_divorce/processed
+  host_species_code: greti
+
+windows:
+  history_observed_weekends: 4
+  forecast_weekend_indices:
+    - 4
+    - 9
+  min_history_events_per_node: 100
+
+pilot:
+  anchor_ids:
+    - winter_2011_12::anchor_002
+    - winter_2012_13::anchor_001
+  non_index_case_levels:
+    - 2
+    - 4
+    - 8
+    - 16
+    - 32
+  random_blocks: 3
+  self_index_replicates_per_block: 1
+  candidate_limit: null
+  max_workers: 9
+  seed: 2026081505
+
+intervention:
+  name: complete_contact_isolation
+  action_type: isolation
+  delay: 0s
+  duration: 2d
+  contact_multiplier: 0.0
+  susceptibility_multiplier: 1.0
+  infectivity_multiplier: 1.0
+  recovery_rate_multiplier: 1.0
+
+stability:
+  top_k: 20
+  gates:
+    aggregate_label_reliability: 0.70
+    aggregate_label_candidate_separation_icc: 0.40
+    rank_correlation_to_maximum_level: 0.90
+
+outputs:
+  results_root: results
+  report_root: reports/g1_sim

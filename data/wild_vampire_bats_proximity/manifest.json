@@ -1,0 +1,11 @@
+{
+  "dataset_id": "wild_vampire_bats_proximity",
+  "accessed": "2026-08-20",
+  "source": "https://doi.org/10.6084/m9.figshare.12045450.v5",
+  "status": "complete",
+  "archive": {
+    "path": "raw/Figshare.zip",
+    "bytes": 4168300,
+    "sha256": "bb0ee12f8b847c65edcb29d94fbd90bda483451946ba39e688adb062ef1bff5e"
+  }
+}

@@ -1,0 +1,100 @@
+experiment:
+  id: EXP-20260819-009
+  name: immediate_case_targeting
+  evidence_level: frozen_best_timing_boundary
+  description: Test a precomputed history list against a distribution of equal-capacity random lists when the first index case is confirmed and acted on immediately.
+
+data:
+  stable_prediction_path: results/EXP-20260816-006/full/forward_predictions.csv
+  datasets:
+    oxford_wildbird_network:
+      source_config: configs/EXP-20260814-003_oxford_predefense.yaml
+      source_results: results/EXP-20260814-003/full
+      network_id: all
+      system_family: oxford_wildbird_network
+      analysis_cluster: anchor
+    guinea_baboons_sociopatterns:
+      source_config: configs/EXP-20260814-004_baboon_validation.yaml
+      source_results: results/EXP-20260814-004/full
+      network_id: all
+      system_family: guinea_baboons_sociopatterns
+      analysis_cluster: anchor
+    domestic_sheep_sirtrack:
+      source_config: configs/EXP-20260815-009_sheep_precision_repaired.yaml
+      source_results: results/EXP-20260815-009/full
+      system_family: domestic_sheep_sirtrack
+      analysis_cluster: network
+    wytham_great_tits_divorce:
+      source_config: configs/EXP-20260815-007_wytham_precision_repaired.yaml
+      source_results: results/EXP-20260815-007/full
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+    radolfzell_great_tits_ontogeny:
+      source_config: configs/EXP-20260815-011_radolfzell_validation.yaml
+      source_results: results/EXP-20260815-011/full
+      network_id: radolfzell_longitudinal_population
+      system_family: radolfzell_great_tits_ontogeny
+      analysis_cluster: anchor
+    experimental_wild_songbirds:
+      source_config: configs/EXP-20260816-001_experimental_songbirds_validation.yaml
+      source_results: results/EXP-20260816-001/full
+      network_id: wytham_songbird_manipulation_population
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+
+decision:
+  detection: index case confirmed at anchor
+  action_delay: zero
+  response_budget_fraction: 0.05
+  minimum_budget: 1
+  residual_contact_multiplier: 0.25
+  epidemic_models:
+    - name: temporal_sir
+    - name: temporal_seir_erlang
+      latent_period_fraction_of_mean_infectious_period: 0.5
+      latent_stages: 2
+      infectious_stages: 3
+
+evaluation:
+  parameter_pool: informative
+  parameter_selection_mode: median
+  independent_replication_unit: animal_system_family
+  bootstrap_replicates: 4000
+  seed: 2026081808
+  primary_estimand: mean final attack rate over eight equal-capacity random additional-target lists minus frozen history-ranked final attack rate
+  interpretation: idealized best-timing boundary for rapid response, not a claim of zero field diagnostic delay
+  primary_gate:
+    strong: targeting-increment interval lower bound is positive and at least four of five family means are positive in both epidemic models
+    directional: targeting-increment mean is positive and at least four of five family means are positive in both epidemic models
+    unsupported: otherwise
+  stop_rule: no tuning of timing, response capacity, residual contact, disease parameters, target score, random-list count, dataset inclusion, or gate after full results
+
+profiles:
+  smoke:
+    datasets: [oxford_wildbird_network, domestic_sheep_sirtrack]
+    max_anchors_per_dataset: 1
+    seeds_per_anchor: 1
+    random_blocks: 1
+    random_target_replicates: 2
+    bootstrap_replicates: 100
+    render_dpi: 110
+  full:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+      - experimental_wild_songbirds
+    max_anchors_per_dataset: null
+    seeds_per_anchor: 2
+    random_blocks: 2
+    random_target_replicates: 8
+    render_dpi: 180
+
+execution:
+  resume: true
+
+outputs:
+  results_root: results
+  report_root: reports/immediate_case_targeting

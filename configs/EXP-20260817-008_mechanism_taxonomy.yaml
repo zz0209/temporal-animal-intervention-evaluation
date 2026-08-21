@@ -1,0 +1,42 @@
+experiment:
+  id: EXP-20260817-008
+  name: frozen_policy_mechanism_taxonomy
+  evidence_level: post_gate_explanatory_analysis
+  description: Explain the frozen policy boundary and classify deployment cells without changing any epidemic simulation, policy, threshold, or primary decision.
+
+data:
+  policy_worlds: results/EXP-20260817-006/full/factorial_policy_worlds.csv.gz
+  decision_map: results/EXP-20260817-006/full/policy_decision_map.csv
+  deletion_resilience: results/EXP-20260817-007/full/decision_resilience.csv
+  precision_deletion_resilience: results/EXP-20260817-007/full/precision_decision_resilience.csv
+
+analysis:
+  independent_replication_unit: animal_system_family
+  nested_units: [analysis_cluster_id, anchor_id, random_block, world_seed]
+  factors: [epidemic_model, detection_profile, rewiring_fraction]
+  outcomes:
+    - direct_minus_history
+    - direct_minus_no_extra
+  mechanism_descriptors:
+    - target_disagreement
+    - selected_infected_fraction_gain
+    - removed_hazard_fraction_gain
+    - standard_attack_rate
+  inference_scope: descriptive_mechanism_audit_not_causal_identification
+  policy_scope: no_new_policy_selection_or_threshold_tuning
+
+classification:
+  robust_history: full decision retains history and all five deletion folds retain it
+  pooled_history_only: full decision retains history but at least one deletion fold changes it
+  pooled_override_only: full decision overrides but the override is not deletion robust
+  abstain: full decision abstains and all deletion folds remain abstentions
+
+profiles:
+  smoke:
+    render_dpi: 100
+  full:
+    render_dpi: 180
+
+outputs:
+  results_root: results
+  report_root: reports/policy_mechanisms

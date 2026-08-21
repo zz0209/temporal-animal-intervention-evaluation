@@ -1,0 +1,23 @@
+{
+  "dataset_id": "free_ranging_sheep_fission_fusion",
+  "accessed": "2026-08-20",
+  "source": "https://doi.org/10.5061/dryad.59zw3r2d6",
+  "status": "complete",
+  "files": [
+    {
+      "path": "raw/GroupsPerTime.csv",
+      "bytes": 41888132,
+      "sha256": "7d4f915cb405cb40ce98d653c440303ebc57629606a608dad59121bbbe68d36c"
+    },
+    {
+      "path": "raw/ts.csv",
+      "bytes": 4095921,
+      "sha256": "902455f6c19c5fdc958291c79a463793a51bba5a6f99f07983d0ee9ea5324376"
+    },
+    {
+      "path": "raw/README_source.md",
+      "bytes": 1764,
+      "sha256": "636bc94688b219ea863e2d7577c213e3e22a7d92104c2023e2e01a8deecac141"
+    }
+  ]
+}

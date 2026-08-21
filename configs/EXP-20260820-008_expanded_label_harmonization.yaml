@@ -1,0 +1,21 @@
+experiment:
+  id: EXP-20260820-008
+  name: expanded_independent_system_label_harmonization
+  evidence_level: derived_validation
+  description: Harmonize empirical temporal animal-system labels that pass the prespecified individual-label readiness gates.
+
+profile: full
+label_contract_path: configs/intervention_label_contract.yaml
+
+sources:
+  - {config_path: configs/EXP-20260814-003_oxford_predefense.yaml, profile: full}
+  - {config_path: configs/EXP-20260814-004_baboon_validation.yaml, profile: full}
+  - {config_path: configs/EXP-20260815-009_sheep_precision_repaired.yaml, profile: full}
+  - {config_path: configs/EXP-20260815-007_wytham_precision_repaired.yaml, profile: full}
+  - {config_path: configs/EXP-20260815-011_radolfzell_validation.yaml, profile: full}
+  - {config_path: configs/EXP-20260816-001_experimental_songbirds_validation.yaml, profile: full}
+  - {config_path: configs/EXP-20260820-006_vampire_bat_validation.yaml, profile: full}
+
+outputs:
+  results_root: results
+  report_root: reports/expanded_label_contract

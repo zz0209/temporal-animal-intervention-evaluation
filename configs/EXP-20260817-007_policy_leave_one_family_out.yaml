@@ -1,0 +1,40 @@
+experiment:
+  id: EXP-20260817-007
+  name: policy_leave_one_animal_system_family_out
+  evidence_level: frozen_post_simulation_transportability_stress_test
+  description: Test whether each final policy decision survives deletion of one complete independent animal-system family without generating new epidemic worlds.
+
+source:
+  experiment_id: EXP-20260817-006
+  results_path: results/EXP-20260817-006/full
+  relative_worlds: factorial_direct_over_history.csv.gz
+  policy_worlds: factorial_policy_worlds.csv.gz
+  decision_map: policy_decision_map.csv
+  audit: audit.json
+
+evaluation:
+  primary_method: contact_to_detected
+  primary_baseline: history_weight
+  bootstrap_replicates: 4000
+  numerical_convergence_bootstrap_replicates: 20000
+  numerical_convergence_seed: 2026082700
+  seed: 2026081707
+  required_family_fraction: 0.8
+  strong_gate: every_original_override_cell_must_remain_override_after_every_single_family_deletion
+  partial_gate: every_original_override_cell_must_remain_override_after_at_least_four_of_five_deletions
+  independent_replication_unit: animal_system_family
+  interpretation: sensitivity_analysis_not_a_new_pass_opportunity
+
+profiles:
+  smoke:
+    bootstrap_replicates: 100
+    numerical_convergence_bootstrap_replicates: null
+    max_omitted_families: 2
+  full:
+    bootstrap_replicates: 4000
+    numerical_convergence_bootstrap_replicates: 20000
+    max_omitted_families: null
+
+outputs:
+  results_root: results
+  report_root: reports/policy_transportability

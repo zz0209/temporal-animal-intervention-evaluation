@@ -1,0 +1,26 @@
+experiment:
+  id: EXP-20260818-003
+  name: final_citation_permission_and_venue_audit
+  evidence_level: submission_preparation_audit
+  description: Verify dataset reuse terms, citation records, closest-prior coverage, and venue fit without changing scientific outcomes.
+
+audit_date: 2026-08-17
+
+scope:
+  dataset_records: 7
+  independent_temporal_system_families: 5
+  review_type: focused final novelty refresh, not a systematic review
+  scientific_outputs_modified: false
+  primary_venue: PLOS Complex Systems
+  stretch_venue: PLOS Computational Biology
+  unsuitable_primary_method_venue: Methods in Ecology and Evolution
+
+required_checks:
+  - official_repository_record_present
+  - associated_study_present
+  - reuse_terms_recorded
+  - attribution_requirements_recorded
+  - closest_recent_method_families_checked
+  - venue_claims_match_official_scope
+  - limitations_preserved
+

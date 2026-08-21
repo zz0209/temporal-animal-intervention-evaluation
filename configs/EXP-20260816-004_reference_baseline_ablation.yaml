@@ -1,0 +1,59 @@
+experiment:
+  id: EXP-20260816-004
+  name: reference_baseline_temporal_order_ablation
+  evidence_level: exploratory_baseline_gate
+  description: Compare static aggregation, time-shuffled history, and observed temporal order.
+
+data:
+  label_path: results/EXP-20260815-001/full/model_ready_labels.csv
+  canonical_root: data
+  datasets:
+    - oxford_wildbird_network
+    - guinea_baboons_sociopatterns
+    - domestic_sheep_sirtrack
+    - wytham_great_tits_divorce
+    - radolfzell_great_tits_ontogeny
+    - experimental_wild_songbirds
+
+temporal:
+  attenuation: 0.05
+  simultaneous_batch_rule: one_transition_per_batch
+  group_event_rule: intact_frequency_dependent_hyper_event
+  shuffle_rule: permute_intact_simultaneous_batches
+
+evaluation:
+  split: leave_one_independent_animal_system_out
+  linked_outer_fold:
+    - wytham_great_tits_divorce
+    - experimental_wild_songbirds
+  top_fraction: 0.20
+  ridge_alpha: 1.0
+  random_seed: 20260816
+  bootstrap_replicates: 2000
+  bootstrap_units:
+    - system_family
+    - dataset_id
+    - network_id
+
+gate:
+  primary_temporal_metric: dynamic_communicability
+  minimum_mean_spearman_gain: 0.02
+  minimum_mean_value_capture_gain: 0.02
+  minimum_positive_family_fraction: 0.60
+
+profiles:
+  smoke:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+    max_contexts_per_dataset: 1
+    shuffle_replicates: 2
+  full:
+    max_contexts_per_dataset: null
+    shuffle_replicates: 8
+
+outputs:
+  results_root: results
+  report_root: reports/baselines

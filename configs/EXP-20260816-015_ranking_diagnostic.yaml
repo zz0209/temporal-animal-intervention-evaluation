@@ -1,0 +1,62 @@
+experiment:
+  id: EXP-20260816-015
+  name: ranking_objective_failure_attribution
+  description: Test whether decision-aligned pairwise training resolves the cross-system failure of MSE set-value regression.
+
+data:
+  labels: results/EXP-20260816-013/full/conditional_set_labels.csv.gz
+  members: results/EXP-20260816-013/full/set_member_features.csv.gz
+  reliability: results/EXP-20260816-013/full/context_reliability.csv
+  precision_audit: results/EXP-20260816-013/full/audit.json
+  mse_overall_summary: results/EXP-20260816-014/full/overall_model_summary.csv
+
+features:
+  member:
+    - stable_percentile
+    - tracing_percentile
+    - activity_percentile
+    - has_positive_tracing
+    - stable_tracing_product
+  context:
+    - detection_delay_fraction
+    - secondary_case_sensitivity
+    - detected_case_fraction
+    - budget_fraction_realized
+    - log_population_size
+    - log_budget
+
+model:
+  hidden_features: 32
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  batch_size: 2048
+  maximum_epochs: 120
+  early_stopping_patience: 15
+  validation_anchor_fraction: 0.20
+  minimum_validation_anchors_per_family: 1
+
+evaluation:
+  seed: 2026081615
+  bootstrap_repetitions: 2000
+  within_system_test_anchor_fraction: 0.20
+  minimum_loso_positive_families: 3
+  minimum_loso_bootstrap_probability_positive: 0.90
+  minimum_within_positive_families: 2
+  minimum_within_bootstrap_probability_positive: 0.80
+
+profiles:
+  smoke:
+    maximum_contexts_per_family: 64
+    maximum_epochs: 4
+    early_stopping_patience: 2
+    bootstrap_repetitions: 50
+  full:
+    maximum_contexts_per_family: null
+
+execution:
+  deterministic: true
+  preferred_device: cuda
+
+outputs:
+  results_root: results
+  report_root: reports/learnability

@@ -1,0 +1,93 @@
+experiment:
+  id: EXP-20260815-005
+  name: wytham_great_tit_nonredundant_grid_validation
+  evidence_level: cross_dataset_internal_validation
+  description: Prospective singleton-isolation labels using the nonredundant Wytham calibration range.
+
+data:
+  dataset_id: wytham_great_tits_divorce
+  display_name: Wytham great tits
+  canonical_path: data/wytham_great_tits_divorce/processed
+  host_species_code: greti
+  primary_modality: inferred_rfid_coflocking_group
+  mapper: frequency_dependent_group_mixing
+
+windows:
+  history_observed_weekends: 4
+  forecast_weekend_indices:
+    - 4
+    - 9
+  lookback: 28d
+  horizon: 2d
+  step: 35d
+  min_history_events_per_node: 100
+  max_anchors: 6
+
+parameter_grid:
+  beta_values:
+    - 0.001
+    - 0.002
+    - 0.003
+    - 0.005
+  beta_unit: per_second_of_group_coattendance
+  mean_infectious_period_days:
+    - 0.5
+    - 1.0
+    - 2.0
+  major_outbreak_attack_rate: 0.20
+  informative_mean_attack_rate_lower: 0.05
+  informative_mean_attack_rate_upper: 0.80
+  informative_major_outbreak_probability_lower: 0.05
+  informative_major_outbreak_probability_upper: 0.95
+  max_selected_scenarios: 3
+  required_reference:
+    beta: 0.003
+    mean_infectious_period_days: 1.0
+
+intervention:
+  name: complete_contact_isolation
+  action_type: isolation
+  delay: 0s
+  duration: 2d
+  contact_multiplier: 0.0
+  susceptibility_multiplier: 1.0
+  infectivity_multiplier: 1.0
+  recovery_rate_multiplier: 1.0
+
+stability:
+  top_k: 20
+  consensus_minimum_contexts: 3
+  gates:
+    minimum_selected_scenarios: 3
+    minimum_informative_selected_scenarios: 3
+    aggregate_label_reliability: 0.70
+    parameter_median_spearman: 0.50
+    aggregate_label_candidate_separation_icc: 0.40
+
+profiles:
+  smoke:
+    candidate_limit: 8
+    max_anchors: 1
+    calibration_parameter_limit: null
+    calibration_index_limit: 6
+    calibration_replicates_per_index: 1
+    selected_scenario_limit: 3
+    random_blocks: 2
+    non_index_cases_per_candidate_block: 2
+    self_index_replicates_per_block: 1
+    seed: 2026081505
+  full:
+    candidate_limit: null
+    max_anchors: 6
+    calibration_parameter_limit: null
+    calibration_index_limit: 24
+    calibration_replicates_per_index: 2
+    selected_scenario_limit: 3
+    random_blocks: 2
+    non_index_cases_per_candidate_block: 2
+    self_index_replicates_per_block: 1
+    seed: 2026081505
+
+outputs:
+  results_root: results
+  report_root: reports/g1_sim

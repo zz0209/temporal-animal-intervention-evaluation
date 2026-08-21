@@ -1,0 +1,68 @@
+experiment:
+  id: EXP-20260818-005
+  name: retention_estimability_correction
+  description: Correct the EXP-20260818-004 dense-support estimability defect without changing epidemic worlds or promoting exploratory metrics to a primary hypothesis.
+  evidence_level: technical_correction_and_exploratory_sensitivity
+
+data:
+  policy_worlds: results/EXP-20260817-006/full/factorial_policy_worlds.csv.gz
+  prerequisite_audit: results/EXP-20260817-006/full/audit.json
+  datasets:
+    oxford_wildbird_network:
+      source_config: configs/EXP-20260814-003_oxford_predefense.yaml
+      system_family: oxford_wildbird_network
+      network_id: all
+    guinea_baboons_sociopatterns:
+      source_config: configs/EXP-20260814-004_baboon_validation.yaml
+      system_family: guinea_baboons_sociopatterns
+      network_id: all
+    domestic_sheep_sirtrack:
+      source_config: configs/EXP-20260815-009_sheep_precision_repaired.yaml
+      system_family: domestic_sheep_sirtrack
+    wytham_great_tits_divorce:
+      source_config: configs/EXP-20260815-007_wytham_precision_repaired.yaml
+      system_family: linked_wytham_songbird_family
+    radolfzell_great_tits_ontogeny:
+      source_config: configs/EXP-20260815-011_radolfzell_validation.yaml
+      system_family: radolfzell_great_tits_ontogeny
+      network_id: radolfzell_longitudinal_population
+    experimental_wild_songbirds:
+      source_config: configs/EXP-20260816-001_experimental_songbirds_validation.yaml
+      system_family: linked_wytham_songbird_family
+      network_id: wytham_songbird_manipulation_population
+
+measurement:
+  history_subwindows: 2
+  top_fraction: 0.20
+  chance_adjustment: dyad_count_hypergeometric_expectation_with_estimability_flag
+  group_projection: mapper_consistent_pairwise_hazard_weight
+
+evaluation:
+  outcomes: [history_minus_no_extra, direct_minus_history, direct_minus_no_extra]
+  ridge_penalty: 10.0
+  minimum_family_directions: 3
+  primary_binary_retention_gate: invalidated_by_dense_support_saturation
+  corrected_loso_features: [weighted_cosine, node_rank_persistence, top_node_overlap]
+  bootstrap_replicates: 4000
+  seed: 2026081805
+
+profiles:
+  smoke:
+    datasets: [oxford_wildbird_network, domestic_sheep_sirtrack, wytham_great_tits_divorce, radolfzell_great_tits_ontogeny]
+    max_anchors_per_dataset: 1
+    bootstrap_replicates: 200
+    render_dpi: 110
+  full:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+      - experimental_wild_songbirds
+    max_anchors_per_dataset: null
+    render_dpi: 180
+
+outputs:
+  results_root: results
+  report_root: reports/retention_value

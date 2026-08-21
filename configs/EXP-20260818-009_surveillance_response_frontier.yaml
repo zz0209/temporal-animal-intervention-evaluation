@@ -1,0 +1,112 @@
+experiment:
+  id: EXP-20260818-009
+  name: surveillance_response_capacity_frontier
+  evidence_level: preregistered_two_factor_capacity_frontier
+  description: Quantify marginal and joint value of monitored-animal capacity and post-detection response capacity on empirical temporal animal networks.
+
+data:
+  stable_prediction_path: results/EXP-20260816-006/full/forward_predictions.csv
+  prerequisite_audit: results/EXP-20260818-008/full/audit.json
+  datasets:
+    oxford_wildbird_network:
+      source_config: configs/EXP-20260814-003_oxford_predefense.yaml
+      source_results: results/EXP-20260814-003/full
+      network_id: all
+      system_family: oxford_wildbird_network
+      analysis_cluster: anchor
+    guinea_baboons_sociopatterns:
+      source_config: configs/EXP-20260814-004_baboon_validation.yaml
+      source_results: results/EXP-20260814-004/full
+      network_id: all
+      system_family: guinea_baboons_sociopatterns
+      analysis_cluster: anchor
+    domestic_sheep_sirtrack:
+      source_config: configs/EXP-20260815-009_sheep_precision_repaired.yaml
+      source_results: results/EXP-20260815-009/full
+      system_family: domestic_sheep_sirtrack
+      analysis_cluster: network
+    wytham_great_tits_divorce:
+      source_config: configs/EXP-20260815-007_wytham_precision_repaired.yaml
+      source_results: results/EXP-20260815-007/full
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+    radolfzell_great_tits_ontogeny:
+      source_config: configs/EXP-20260815-011_radolfzell_validation.yaml
+      source_results: results/EXP-20260815-011/full
+      network_id: radolfzell_longitudinal_population
+      system_family: radolfzell_great_tits_ontogeny
+      analysis_cluster: anchor
+    experimental_wild_songbirds:
+      source_config: configs/EXP-20260816-001_experimental_songbirds_validation.yaml
+      source_results: results/EXP-20260816-001/full
+      network_id: wytham_songbird_manipulation_population
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+
+decision:
+  sentinel_method: history_weight
+  sentinel_budget_fractions: [0.05, 0.10, 0.20]
+  response_budget_fractions: [0.00, 0.05, 0.10]
+  reference_sentinel_fraction: 0.05
+  expanded_sentinel_fraction: 0.10
+  reference_response_fraction: 0.05
+  expanded_response_fraction: 0.10
+  interaction_low_fraction: 0.05
+  interaction_high_fraction: 0.10
+  minimum_positive_budget: 1
+  action_delay_fraction_of_mean_infectious_period: 0.10
+  residual_contact_multiplier: 0.25
+  sentinel_detection_sensitivity: 1.0
+  rewiring_fraction: 0.0
+  epidemic_models:
+    - name: temporal_sir
+    - name: temporal_seir_erlang
+      latent_period_fraction_of_mean_infectious_period: 0.5
+      latent_stages: 2
+      infectious_stages: 3
+
+evaluation:
+  parameter_pool: informative
+  parameter_selection_mode: median
+  independent_replication_unit: animal_system_family
+  bootstrap_replicates: 4000
+  deletion_bootstrap_replicates: 2000
+  seed: 2026081809
+  co_primary_estimands:
+    surveillance_doubling_value: attack rate at 5 percent sentinels and 5 percent response minus attack rate at 10 percent sentinels and 5 percent response
+    response_doubling_value: attack rate at 5 percent sentinels and 5 percent response minus attack rate at 5 percent sentinels and 10 percent response
+    capacity_complementarity: response doubling value at 10 percent sentinels minus response doubling value at 5 percent sentinels
+  estimability: a family contributes direction only when the compared policies use different realized animal counts in at least one cluster
+  primary_gate:
+    main_effect: interval lower bound positive and at least three of four expected estimable families positive
+    interaction: interval excludes zero and at least three estimable families share its direction
+  stop_rule: do not change grid, disease parameters, estimands, gates, or selector after full results
+
+profiles:
+  smoke:
+    datasets: [oxford_wildbird_network, domestic_sheep_sirtrack, wytham_great_tits_divorce, radolfzell_great_tits_ontogeny]
+    max_anchors_per_dataset: 1
+    seeds_per_anchor: 1
+    random_blocks: 1
+    bootstrap_replicates: 100
+    deletion_bootstrap_replicates: 50
+    render_dpi: 110
+  full:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+      - experimental_wild_songbirds
+    max_anchors_per_dataset: null
+    seeds_per_anchor: 2
+    random_blocks: 2
+    render_dpi: 180
+
+execution:
+  resume: true
+
+outputs:
+  results_root: results
+  report_root: reports/capacity_frontier

@@ -1,0 +1,9 @@
+{
+  "dataset_id": "barn_swallows_encounternet",
+  "accessed": "2026-08-13",
+  "source": "https://doi.org/10.5061/dryad.61f4v",
+  "status": "complete",
+  "metadata_files": ["raw/dryad_metadata.json", "raw/dryad_file_list.json"],
+  "files": [{"path": "raw/II+Levin+Encounternet+methods+paper+calibration+and+field+test+files.zip", "bytes": 27209, "md5": "2306fc96d8ae5c9e7eb3015c1977be30", "sha256": "2c0ae828c33b5afbeead4d254958c0b7d8e3782af69db7b5619f3ba863020439"}],
+  "verification": "MD5 matches Dryad; ZIP opens and contains the documented CSV payload."
+}

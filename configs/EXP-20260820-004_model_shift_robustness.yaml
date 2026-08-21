@@ -1,0 +1,38 @@
+experiment:
+  id: EXP-20260820-004
+  name: model_shift_robustness
+  evidence_level: frozen_cross_model_policy_stress_test
+  description: Evaluate whether fixed-budget intervention sets selected on past contacts under one epidemic model retain value when future outbreaks follow another model.
+
+data:
+  planning_config: configs/EXP-20260820-001_historical_set_planning.yaml
+  planning_results: results/EXP-20260820-001/full
+
+decision:
+  residual_contact_multiplier: 0.25
+  planning_models:
+    - temporal_sir
+    - temporal_seir_erlang
+
+evaluation:
+  seed: 2026082004
+  bootstrap_replicates: 4000
+  primary_estimand: paired future penalty from using a set selected under the other epidemic model
+  robust_estimand: future regret of a past-only maximin-normalized set relative to the better of the two model-specific past plans
+  interpretation: structural disease-model stress test conditional on each dataset's declared contact-to-exposure mapper
+  stop_rule: do not change contexts, model family, candidate pools, budgets, historical scores, or selectors after future outcomes are observed
+
+profiles:
+  smoke:
+    maximum_contexts: 4
+    future_blocks: 2
+    bootstrap_replicates: 100
+    render_dpi: 110
+  full:
+    maximum_contexts: null
+    future_blocks: 32
+    render_dpi: 220
+
+outputs:
+  results_root: results
+  report_root: reports/model_shift_robustness

@@ -1,0 +1,112 @@
+experiment:
+  id: EXP-20260818-008
+  name: role_aware_sentinel_response
+  evidence_level: preregistered_endogenous_detection_and_response_gate
+  description: Test whether one past-contact list can serve both sentinel surveillance and intervention, using endogenous outbreak detection on empirical temporal animal networks.
+
+data:
+  stable_prediction_path: results/EXP-20260816-006/full/forward_predictions.csv
+  prerequisite_audit: results/EXP-20260818-007/full/audit.json
+  datasets:
+    oxford_wildbird_network:
+      source_config: configs/EXP-20260814-003_oxford_predefense.yaml
+      source_results: results/EXP-20260814-003/full
+      network_id: all
+      system_family: oxford_wildbird_network
+      analysis_cluster: anchor
+    guinea_baboons_sociopatterns:
+      source_config: configs/EXP-20260814-004_baboon_validation.yaml
+      source_results: results/EXP-20260814-004/full
+      network_id: all
+      system_family: guinea_baboons_sociopatterns
+      analysis_cluster: anchor
+    domestic_sheep_sirtrack:
+      source_config: configs/EXP-20260815-009_sheep_precision_repaired.yaml
+      source_results: results/EXP-20260815-009/full
+      system_family: domestic_sheep_sirtrack
+      analysis_cluster: network
+    wytham_great_tits_divorce:
+      source_config: configs/EXP-20260815-007_wytham_precision_repaired.yaml
+      source_results: results/EXP-20260815-007/full
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+    radolfzell_great_tits_ontogeny:
+      source_config: configs/EXP-20260815-011_radolfzell_validation.yaml
+      source_results: results/EXP-20260815-011/full
+      network_id: radolfzell_longitudinal_population
+      system_family: radolfzell_great_tits_ontogeny
+      analysis_cluster: anchor
+    experimental_wild_songbirds:
+      source_config: configs/EXP-20260816-001_experimental_songbirds_validation.yaml
+      source_results: results/EXP-20260816-001/full
+      network_id: wytham_songbird_manipulation_population
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+
+decision:
+  sentinel_methods: [random, history_weight, history_coverage]
+  response_methods: [case_only, history_weight]
+  sentinel_budget_fraction: 0.05
+  response_budget_fraction: 0.05
+  minimum_budget: 1
+  action_delay_fraction_of_mean_infectious_period: 0.1
+  residual_contact_multiplier: 0.25
+  early_detection_threshold_fraction: 0.10
+  sentinel_detection_sensitivity: 1.0
+  rewiring_fraction: 0.0
+  epidemic_models:
+    - name: temporal_sir
+    - name: temporal_seir_erlang
+      latent_period_fraction_of_mean_infectious_period: 0.5
+      latent_stages: 2
+      infectious_stages: 3
+
+evaluation:
+  parameter_pool: informative
+  parameter_selection_mode: median
+  independent_replication_unit: animal_system_family
+  bootstrap_replicates: 4000
+  deletion_bootstrap_replicates: 2000
+  seed: 2026081808
+  primary_contrasts:
+    history_sentinel_value: random sentinels plus history response minus history-weight sentinels plus history response
+    role_separation_value: history-weight sentinels plus history response minus history-coverage sentinels plus history response
+    response_value_under_coverage: history-coverage sentinels plus case-only response minus history-coverage sentinels plus history response
+  primary_gate:
+    rule: interval lower bound positive and at least four of five family means positive
+  role_classification:
+    role_separated: history sentinel value, role separation value, and response value all pass
+    shared_history_list_sufficient: history sentinel and response values pass but role separation does not
+    surveillance_helpful_response_uncertain: history sentinel value passes but response value does not
+    retain_exogenous_detection_scope_or_abstain: history sentinel value does not pass
+  multiplicity: three co-primary contrasts define one ordered role classification; full-surveillance ceiling and other contrasts are explanatory only
+  stop_rule: do not tune budgets, threshold, coverage objective, disease parameters, sensitivity, or gates after full results
+
+profiles:
+  smoke:
+    datasets: [oxford_wildbird_network, domestic_sheep_sirtrack, wytham_great_tits_divorce, radolfzell_great_tits_ontogeny]
+    max_anchors_per_dataset: 1
+    seeds_per_anchor: 1
+    random_blocks: 1
+    bootstrap_replicates: 100
+    deletion_bootstrap_replicates: 50
+    render_dpi: 110
+  full:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+      - experimental_wild_songbirds
+    max_anchors_per_dataset: null
+    seeds_per_anchor: 2
+    random_blocks: 2
+    render_dpi: 180
+
+execution:
+  resume: true
+
+outputs:
+  results_root: results
+  report_root: reports/role_aware_surveillance

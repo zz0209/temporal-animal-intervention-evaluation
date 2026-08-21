@@ -1,0 +1,10 @@
+{
+  "dataset_id": "radolfzell_great_tits_ontogeny",
+  "accessed": "2026-08-13",
+  "source": "https://doi.org/10.5061/dryad.x95x69ps8",
+  "status": "complete",
+  "metadata_files": ["raw/dryad_metadata.json", "raw/dryad_file_list.json"],
+  "archive": {"path": "raw/doi_10_5061_dryad_x95x69ps8__v20240307.zip", "bytes": 208601237, "sha256": "cc7ecc7aac36d8b94472343618f9c234f699b833aa865fc4915aad04bc90f6f6"},
+  "payload": {"files": 37, "uncompressed_bytes": 208596281},
+  "verification": "37/37 filenames and uncompressed sizes match Dryad's official manifest."
+}

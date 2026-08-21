@@ -1,0 +1,101 @@
+experiment:
+  id: EXP-20260815-009
+  name: domestic_sheep_precision_repaired_validation
+  evidence_level: cross_dataset_internal_validation
+  description: Cohort-aware sheep labels with pilot-selected Monte Carlo precision.
+  calibration_source_experiment_id: EXP-20260815-002
+  precision_pilot_source_experiment_id: EXP-20260815-008
+  residual_precision_source_experiment_id: EXP-20260815-010
+
+data:
+  dataset_id: domestic_sheep_sirtrack
+  canonical_path: data/domestic_sheep_sirtrack/processed
+  raw_behavior_path: data/domestic_sheep_sirtrack/raw/Behaviour_data_Amorris_2023.csv
+  raw_measurements_path: data/domestic_sheep_sirtrack/raw/Animal_measurements_data_Amorris_2023.csv
+  mapper: coalesced_duration
+  primary_modality: sensor_proximity_interval
+
+label_contract_path: configs/intervention_label_contract.yaml
+
+windows:
+  lookback: 14d
+  horizon: 7d
+  step: 7d
+  max_anchors: 6
+  min_history_events_per_node: 20
+
+parameter_grid:
+  beta_values:
+    - 0.000001
+    - 0.000003
+    - 0.00001
+    - 0.00003
+    - 0.0001
+    - 0.0003
+  beta_unit: per_second_of_observed_interval
+  mean_infectious_period_days:
+    - 0.5
+    - 1.0
+    - 2.0
+  major_outbreak_attack_rate: 0.60
+  informative_mean_attack_rate_lower: 0.20
+  informative_mean_attack_rate_upper: 0.90
+  informative_major_outbreak_probability_lower: 0.05
+  informative_major_outbreak_probability_upper: 0.95
+  max_selected_scenarios: 5
+  required_reference:
+    beta: 0.00003
+    mean_infectious_period_days: 1.0
+
+intervention:
+  name: complete_contact_isolation
+  action_type: isolation
+  delay: 0s
+  duration: 7d
+  contact_multiplier: 0.0
+  susceptibility_multiplier: 1.0
+  infectivity_multiplier: 1.0
+  recovery_rate_multiplier: 1.0
+
+stability:
+  top_k: 2
+  consensus_minimum_contexts: 10
+  gates:
+    minimum_selected_scenarios: 3
+    minimum_informative_selected_scenarios: 3
+    aggregate_label_reliability: 0.70
+    parameter_median_spearman: 0.50
+    aggregate_label_candidate_separation_icc: 0.40
+
+profiles:
+  smoke:
+    candidate_limit: 3
+    max_anchors: 1
+    calibration_parameter_limit: null
+    calibration_index_limit: null
+    calibration_replicates_per_index: 2
+    selected_scenario_limit: 2
+    random_blocks: 2
+    non_index_cases_per_candidate_block: 2
+    self_index_replicates_per_block: 2
+    max_workers: 2
+    reuse_precision_pilot: false
+    seed: 2026081502
+  full:
+    candidate_limit: null
+    max_anchors: 6
+    calibration_parameter_limit: null
+    calibration_index_limit: null
+    calibration_replicates_per_index: 2
+    selected_scenario_limit: 5
+    random_blocks: 48
+    non_index_cases_per_candidate_block: 4
+    self_index_replicates_per_block: 4
+    max_workers: 9
+    reuse_precision_pilot: false
+    reuse_residual_precision: false
+    seed: 2026081502
+
+outputs:
+  results_root: results
+  report_root: reports/g1_sim

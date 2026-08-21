@@ -1,0 +1,16 @@
+experiment:
+  id: EXP-20260820-009
+  name: expanded_history_feature_registry
+  evidence_level: derived_validation
+  description: Preserve the frozen six-dataset history features and add past-only features for the independently validated vampire-bat system.
+
+data:
+  label_path: results/EXP-20260820-008/full/model_ready_labels.csv
+  existing_feature_path: results/EXP-20260816-005/full/history_features.csv
+  canonical_root: data
+  new_datasets:
+    - wild_vampire_bats_proximity
+
+outputs:
+  results_root: results
+  report_root: reports/baselines

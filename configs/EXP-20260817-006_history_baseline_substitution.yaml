@@ -1,0 +1,129 @@
+experiment:
+  id: EXP-20260817-006
+  name: history_baseline_substitution_gate
+  evidence_level: preregistered_final_primary_baseline_gate
+  description: Test whether detected-case contact targeting should override a transparent history-weight preparedness list while preserving an absolute no-extra-action safety comparator.
+
+data:
+  stable_prediction_path: results/EXP-20260816-006/full/forward_predictions.csv
+  prerequisite_audit: results/EXP-20260817-005/full/audit.json
+  datasets:
+    oxford_wildbird_network:
+      source_config: configs/EXP-20260814-003_oxford_predefense.yaml
+      source_results: results/EXP-20260814-003/full
+      network_id: all
+      system_family: oxford_wildbird_network
+      analysis_cluster: anchor
+    guinea_baboons_sociopatterns:
+      source_config: configs/EXP-20260814-004_baboon_validation.yaml
+      source_results: results/EXP-20260814-004/full
+      network_id: all
+      system_family: guinea_baboons_sociopatterns
+      analysis_cluster: anchor
+    domestic_sheep_sirtrack:
+      source_config: configs/EXP-20260815-009_sheep_precision_repaired.yaml
+      source_results: results/EXP-20260815-009/full
+      system_family: domestic_sheep_sirtrack
+      analysis_cluster: network
+    wytham_great_tits_divorce:
+      source_config: configs/EXP-20260815-007_wytham_precision_repaired.yaml
+      source_results: results/EXP-20260815-007/full
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+    radolfzell_great_tits_ontogeny:
+      source_config: configs/EXP-20260815-011_radolfzell_validation.yaml
+      source_results: results/EXP-20260815-011/full
+      network_id: radolfzell_longitudinal_population
+      system_family: radolfzell_great_tits_ontogeny
+      analysis_cluster: anchor
+    experimental_wild_songbirds:
+      source_config: configs/EXP-20260816-001_experimental_songbirds_validation.yaml
+      source_results: results/EXP-20260816-001/full
+      network_id: wytham_songbird_manipulation_population
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+
+decision:
+  methods: [history_weight, contact_to_detected]
+  minimum_additional_budget: 1
+  additional_budget_fraction: 0.05
+  tracing_half_life_fraction_of_mean_infectious_period: 0.5
+  secondary_case_sensitivity: 0.5
+  false_positive_rate: 0.0
+  action_delay_fraction_of_mean_infectious_period: 0.1
+  residual_contact_multiplier: 0.25
+  rewiring_mode: uniform_partner_substitution
+  rewiring_fractions: [0.0, 1.0]
+  detection_profiles:
+    - name: early_detection
+      delay_fraction_of_mean_infectious_period: 0.25
+    - name: delayed_detection
+      delay_fraction_of_mean_infectious_period: 0.75
+  epidemic_models:
+    - name: temporal_sir
+    - name: temporal_seir_erlang
+      latent_period_fraction_of_mean_infectious_period: 0.5
+      latent_stages: 2
+      infectious_stages: 3
+  observation_sentinel:
+    enabled: true
+    epidemic_model: temporal_sir
+    detection_profile:
+      name: early_detection
+      delay_fraction_of_mean_infectious_period: 0.25
+    rewiring_fraction: 1.0
+    profiles:
+      - name: reference
+        label: Complete records
+      - name: joint_moderate
+        label: Joint moderate
+        event_retention_probability: 0.70
+        tag_retention_probability: 0.90
+        roster_retention_probability: 0.90
+        time_bin_fraction_of_mean_infectious_period: 0.25
+        binary_intensity: true
+
+evaluation:
+  parameter_pool: informative
+  parameter_selection_mode: median
+  primary_method: contact_to_detected
+  primary_baseline: history_weight
+  bootstrap_replicates: 4000
+  seed: 2026081706
+  decision_rule:
+    override_supported: direct_minus_history_and_direct_minus_no_extra_must_have_positive_hierarchical_interval_lower_bounds_and_at_least_four_of_five_family_means_positive
+    history_supported: history_minus_no_extra_must_meet_the_same_absolute_support_rule_when_override_is_not_supported
+    otherwise: abstain_or_unresolved
+    observation_sentinel_role: guardrail_only_not_a_required_pass_condition
+    independent_replication_unit: animal_system_family
+    stop_after_this_gate: true
+
+profiles:
+  smoke:
+    datasets:
+      - oxford_wildbird_network
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+    max_anchors_per_dataset: 1
+    seeds_per_anchor: 1
+    random_blocks: 1
+    bootstrap_replicates: 100
+  full:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+      - experimental_wild_songbirds
+    max_anchors_per_dataset: null
+    seeds_per_anchor: 2
+    random_blocks: 2
+
+execution:
+  resume: true
+
+outputs:
+  results_root: results
+  report_root: reports/outbreak_response

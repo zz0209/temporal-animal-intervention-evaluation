@@ -1,0 +1,121 @@
+experiment:
+  id: EXP-20260818-006
+  name: outbreak_information_accrual_value
+  evidence_level: preregistered_repeated_measures_value_of_information_gate
+  description: Decompose the value of waiting for outbreak-specific contact evidence into same-time information gain and delay opportunity cost.
+
+data:
+  stable_prediction_path: results/EXP-20260816-006/full/forward_predictions.csv
+  prerequisite_audit: results/EXP-20260818-005/full/audit.json
+  datasets:
+    oxford_wildbird_network:
+      source_config: configs/EXP-20260814-003_oxford_predefense.yaml
+      source_results: results/EXP-20260814-003/full
+      network_id: all
+      system_family: oxford_wildbird_network
+      analysis_cluster: anchor
+    guinea_baboons_sociopatterns:
+      source_config: configs/EXP-20260814-004_baboon_validation.yaml
+      source_results: results/EXP-20260814-004/full
+      network_id: all
+      system_family: guinea_baboons_sociopatterns
+      analysis_cluster: anchor
+    domestic_sheep_sirtrack:
+      source_config: configs/EXP-20260815-009_sheep_precision_repaired.yaml
+      source_results: results/EXP-20260815-009/full
+      system_family: domestic_sheep_sirtrack
+      analysis_cluster: network
+    wytham_great_tits_divorce:
+      source_config: configs/EXP-20260815-007_wytham_precision_repaired.yaml
+      source_results: results/EXP-20260815-007/full
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+    radolfzell_great_tits_ontogeny:
+      source_config: configs/EXP-20260815-011_radolfzell_validation.yaml
+      source_results: results/EXP-20260815-011/full
+      network_id: radolfzell_longitudinal_population
+      system_family: radolfzell_great_tits_ontogeny
+      analysis_cluster: anchor
+    experimental_wild_songbirds:
+      source_config: configs/EXP-20260816-001_experimental_songbirds_validation.yaml
+      source_results: results/EXP-20260816-001/full
+      network_id: wytham_songbird_manipulation_population
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+
+decision:
+  methods: [history_weight, contact_to_detected]
+  minimum_additional_budget: 1
+  additional_budget_fraction: 0.05
+  tracing_half_life_fraction_of_mean_infectious_period: 0.5
+  secondary_case_sensitivity: 0.5
+  false_positive_rate: 0.0
+  action_delay_fraction_of_mean_infectious_period: 0.1
+  residual_contact_multiplier: 0.25
+  rewiring_fraction: 0.0
+  rewiring_mode: none
+  detection_profiles:
+    - name: evidence_025
+      delay_fraction_of_mean_infectious_period: 0.25
+    - name: evidence_040
+      delay_fraction_of_mean_infectious_period: 0.40
+    - name: evidence_055
+      delay_fraction_of_mean_infectious_period: 0.55
+    - name: evidence_075
+      delay_fraction_of_mean_infectious_period: 0.75
+  epidemic_models:
+    - name: temporal_sir
+    - name: temporal_seir_erlang
+      latent_period_fraction_of_mean_infectious_period: 0.5
+      latent_stages: 2
+      infectious_stages: 3
+
+evaluation:
+  parameter_pool: informative
+  parameter_selection_mode: median
+  primary_history_method: history_weight
+  primary_reactive_method: contact_to_detected
+  earliest_profile: evidence_025
+  latest_profile: evidence_075
+  independent_replication_unit: animal_system_family
+  bootstrap_replicates: 4000
+  deletion_bootstrap_replicates: 2000
+  seed: 2026081806
+  decision_rule:
+    information_gain: same-time history final size minus reactive final size
+    delay_cost: same-time history final size minus earliest-time history final size
+    net_wait_value: earliest-time history final size minus reactive final size at the later time
+    operational_upgrade: latest net-wait and latest reactive absolute intervals must be positive with at least four of five family means positive
+    informative_but_too_late: latest information-gain interval positive but operational-upgrade gate fails
+    otherwise: retain_early_history_or_abstain
+    multiplicity: all four time points and both disease models are reported; only the preregistered latest-versus-earliest contrast is confirmatory
+    stop_rule: do not tune evidence times or disease parameters after full results
+
+profiles:
+  smoke:
+    datasets: [oxford_wildbird_network, domestic_sheep_sirtrack, wytham_great_tits_divorce, radolfzell_great_tits_ontogeny]
+    max_anchors_per_dataset: 1
+    seeds_per_anchor: 1
+    random_blocks: 1
+    bootstrap_replicates: 100
+    deletion_bootstrap_replicates: 50
+    render_dpi: 110
+  full:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+      - experimental_wild_songbirds
+    max_anchors_per_dataset: null
+    seeds_per_anchor: 2
+    random_blocks: 2
+    render_dpi: 180
+
+execution:
+  resume: true
+
+outputs:
+  results_root: results
+  report_root: reports/information_value

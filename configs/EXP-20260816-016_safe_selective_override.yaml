@@ -1,0 +1,72 @@
+experiment:
+  id: EXP-20260816-016
+  name: safe_selective_ranking_override
+  description: Test whether nested out-of-family calibration can safely permit selective learned overrides of stable plus tracing.
+
+data:
+  labels: results/EXP-20260816-013/full/conditional_set_labels.csv.gz
+  members: results/EXP-20260816-013/full/set_member_features.csv.gz
+  reliability: results/EXP-20260816-013/full/context_reliability.csv
+  precision_audit: results/EXP-20260816-013/full/audit.json
+  ranking_audit: results/EXP-20260816-015/full/audit.json
+
+features:
+  member:
+    - stable_percentile
+    - tracing_percentile
+    - activity_percentile
+    - has_positive_tracing
+    - stable_tracing_product
+  context:
+    - detection_delay_fraction
+    - secondary_case_sensitivity
+    - detected_case_fraction
+    - budget_fraction_realized
+    - log_population_size
+    - log_budget
+
+model:
+  hidden_features: 32
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  batch_size: 2048
+  maximum_epochs: 120
+  early_stopping_patience: 15
+  validation_anchor_fraction: 0.20
+  minimum_validation_anchors_per_family: 1
+
+calibration:
+  normalized_margin_thresholds: [0.0, 0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90]
+  minimum_contexts_overridden: 10
+  minimum_families_with_overrides: 2
+  minimum_family_equal_coverage: 0.02
+  minimum_positive_families: 2
+  minimum_bootstrap_probability_positive: 0.80
+  maximum_family_equal_harmful_override_fraction: 0.25
+  bootstrap_repetitions: 500
+
+evaluation:
+  seed: 2026081616
+  bootstrap_repetitions: 2000
+  minimum_test_coverage: 0.02
+  minimum_positive_families: 3
+  minimum_bootstrap_probability_positive: 0.90
+  maximum_harmful_override_fraction: 0.25
+
+profiles:
+  smoke:
+    maximum_contexts_per_family: 64
+    maximum_epochs: 4
+    early_stopping_patience: 2
+    calibration_bootstrap_repetitions: 50
+    bootstrap_repetitions: 50
+  full:
+    maximum_contexts_per_family: null
+
+execution:
+  deterministic: true
+  preferred_device: cuda
+
+outputs:
+  results_root: results
+  report_root: reports/learnability

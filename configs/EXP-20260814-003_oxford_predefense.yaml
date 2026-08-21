@@ -1,0 +1,93 @@
+experiment:
+  id: EXP-20260814-003
+  name: oxford_predefense_stability
+  evidence_level: internal_validation
+  description: Oxford-only stochastic, parameter, and short-window stability audit.
+
+data:
+  canonical_path: data/oxford_wildbird_network/processed
+  mapper: primary_contract_driven
+
+windows:
+  lookback: 2d
+  horizon: 2d
+  step: 1d
+  max_anchors: 3
+  min_history_events_per_node: 2
+
+parameter_grid:
+  beta_per_integrated_association:
+    - 1.0
+    - 2.0
+    - 4.0
+  mean_infectious_period_days:
+    - 2.0
+    - 4.0
+    - 8.0
+  calibration_replicates_per_index: 2
+  major_outbreak_attack_rate: 0.10
+  informative_mean_attack_rate_lower: 0.02
+  informative_mean_attack_rate_upper: 0.80
+  informative_major_outbreak_probability_lower: 0.05
+  informative_major_outbreak_probability_upper: 0.95
+  max_selected_scenarios: 5
+  required_reference:
+    beta_per_integrated_association: 2.0
+    mean_infectious_period_days: 4.0
+
+intervention:
+  name: complete_contact_isolation
+  action_type: isolation
+  delay: 0s
+  duration: 2d
+  contact_multiplier: 0.0
+  susceptibility_multiplier: 1.0
+  infectivity_multiplier: 1.0
+  recovery_rate_multiplier: 1.0
+
+stability:
+  random_blocks: 3
+  non_index_cases_per_candidate_block: 32
+  self_index_replicates_per_block: 4
+  top_k: 10
+  consensus_minimum_contexts: 6
+  exhaustive_reference_path: reports/g1_sim/EXP-20260814-002/full/intervention_value_ranking.csv
+  internal_gates:
+    minimum_selected_scenarios: 3
+    random_repeat_median_spearman: 0.80
+    random_repeat_median_top_k_overlap: 0.60
+    parameter_median_spearman: 0.60
+    parameter_median_top_k_overlap: 0.40
+    temporal_median_spearman: 0.50
+    temporal_median_top_k_overlap: 0.30
+    candidate_separation_median_icc: 0.50
+    exhaustive_reference_median_spearman: 0.70
+    exhaustive_reference_median_top_k_overlap: 0.50
+
+profiles:
+  smoke:
+    candidate_limit: 6
+    max_anchors: 1
+    calibration_parameter_limit: 3
+    calibration_index_limit: 12
+    calibration_replicates_per_index: 1
+    selected_scenario_limit: 2
+    random_blocks: 2
+    non_index_cases_per_candidate_block: 5
+    self_index_replicates_per_block: 2
+    seed: 2026081403
+  full:
+    candidate_limit: null
+    max_anchors: 3
+    calibration_parameter_limit: null
+    calibration_index_limit: null
+    calibration_replicates_per_index: 2
+    selected_scenario_limit: 5
+    random_blocks: 3
+    non_index_cases_per_candidate_block: 32
+    self_index_replicates_per_block: 4
+    seed: 2026081403
+
+outputs:
+  results_root: results
+  report_root: reports/g1_sim

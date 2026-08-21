@@ -1,0 +1,134 @@
+experiment:
+  id: EXP-20260817-002
+  name: frozen_claim_and_safety_evidence_synthesis
+  evidence_level: cross_experiment_assumption_domain_synthesis
+  description: Freeze publication claims by separating absolute intervention benefit, relative policy advantage, family direction, modality, and assumption-domain failures.
+
+sources:
+  delivery:
+    experiment_id: EXP-20260816-017
+    domain: delivery
+    results_path: results/EXP-20260816-017/full
+  observation:
+    experiment_id: EXP-20260816-018
+    domain: observation
+    results_path: results/EXP-20260816-018/full
+  rewiring_exploration:
+    experiment_id: EXP-20260816-019
+    domain: rewiring_exploration
+    results_path: results/EXP-20260816-019/full
+  rewiring_replication:
+    experiment_id: EXP-20260816-020
+    domain: rewiring_replication
+    results_path: results/EXP-20260816-020/full
+  disease_phase:
+    experiment_id: EXP-20260817-001
+    domain: disease_regime
+    results_path: results/EXP-20260817-001/full
+
+modalities:
+  domestic_sheep_sirtrack: proximity_sensor
+  guinea_baboons_sociopatterns: proximity_sensor
+  linked_wytham_songbird_family: association_or_feeder
+  oxford_wildbird_network: association_or_feeder
+  radolfzell_great_tits_ontogeny: association_or_feeder
+
+claims:
+  - claim_id: C1_delivery_absolute_benefit
+    claim_text: Stable plus tracing has positive absolute benefit across the frozen delivery matrix.
+    source: delivery
+    estimand: absolute
+    method: stable_plus_tracing
+    filters: {}
+    gate:
+      require_point_positive: true
+      require_ci_low_positive: true
+      minimum_positive_families: 0
+      minimum_passing_cell_fraction: 1.0
+    scope: Observed future replay, no compensatory rewiring, frozen SIR profile.
+  - claim_id: C2_observation_absolute_benefit
+    claim_text: Stable plus tracing has positive absolute benefit across the observation-error matrix.
+    source: observation
+    estimand: absolute
+    method: stable_plus_tracing
+    filters: {}
+    gate:
+      require_point_positive: true
+      require_ci_low_positive: true
+      minimum_positive_families: 0
+      minimum_passing_cell_fraction: 1.0
+    scope: Generic secondary-case sensitivity and false-positive stress levels, no rewiring.
+  - claim_id: C3_fusion_rewiring_robustness
+    claim_text: Stable plus tracing retains positive absolute benefit under compensatory rewiring.
+    source: rewiring_exploration
+    estimand: absolute
+    method: stable_plus_tracing
+    filters:
+      rewiring_fraction: [0.5, 1.0]
+    gate:
+      require_point_positive: true
+      require_ci_low_positive: true
+      minimum_positive_families: 0
+      minimum_passing_cell_fraction: 1.0
+    scope: Uniform partner-substitution stress test; not a fitted animal behavior model.
+  - claim_id: C4_direct_rewiring_replication
+    claim_text: Early direct contact targeting outperforms the stable watchlist under high compensatory rewiring.
+    source: rewiring_replication
+    estimand: relative
+    method: contact_to_detected
+    filters:
+      detection_profile: early_detection
+      rewiring_fraction: [0.5, 1.0]
+    gate:
+      require_point_positive: true
+      require_ci_low_positive: true
+      minimum_positive_families: 5
+      minimum_passing_cell_fraction: 1.0
+    scope: Frozen middle calibrated SIR profile and structural rewiring stress test.
+  - claim_id: C5_disease_regime_policy_boundary
+    claim_text: Early direct targeting has a positive family-direction advantage in at least two of three disease regimes under full rewiring.
+    source: disease_phase
+    estimand: relative
+    method: contact_to_detected
+    filters:
+      detection_profile: early_detection
+      rewiring_fraction: 1.0
+    gate:
+      require_point_positive: true
+      require_ci_low_positive: false
+      minimum_positive_families: 4
+      minimum_passing_cell_fraction: 0.6666666666666666
+    scope: Within-dataset calibrated low, middle, and high attack-rate profiles.
+  - claim_id: C6_universal_absolute_safety
+    claim_text: Early direct targeting has supported absolute benefit in every disease regime under full rewiring.
+    source: disease_phase
+    estimand: absolute
+    method: contact_to_detected
+    filters:
+      detection_profile: early_detection
+      rewiring_fraction: 1.0
+    gate:
+      require_point_positive: true
+      require_ci_low_positive: true
+      minimum_positive_families: 0
+      minimum_passing_cell_fraction: 1.0
+    scope: Strong universal-safety claim; failure requires an abstention region.
+
+safety_frontier:
+  source: disease_phase
+  method: contact_to_detected
+  expected_cells: 12
+  modality_filters:
+    detection_profile: early_detection
+    rewiring_fraction: 1.0
+
+profiles:
+  smoke: {}
+  full: {}
+
+reporting:
+  multiplicity_policy: Claims are prespecified Boolean evidence gates; report all six claims and all failed cells without familywise p-value language or selective suppression.
+
+outputs:
+  results_root: results
+  report_root: reports/evidence_synthesis

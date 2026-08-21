@@ -1,0 +1,7 @@
+{
+  "dataset_id": "oxford_wildbird_network",
+  "accessed": "2026-08-13",
+  "source": "https://nrvis.com/download/data/dynamic/aves-wildbird-network.zip",
+  "status": "complete",
+  "files": [{"path": "raw/aves-wildbird-network.zip", "bytes": 80810, "sha256": "a1b8cdf1d73cb75413a1a2893bcf6f59f91f31148453b394057eb6376af3594a"}]
+}

@@ -1,0 +1,43 @@
+experiment_id: EXP-20260819-003
+slug: safe_transfer_allocation
+inputs:
+  family_policy: results/EXP-20260818-010/full/family_policy.csv
+  source_audit: results/EXP-20260818-010/full/audit.json
+decision:
+  reference_sentinel_fraction: 0.10
+  reference_response_fraction: 0.05
+  cost_ratios: [0.25, 0.5, 1.0, 2.0, 4.0]
+  primary_recognition_sensitivity: 0.50
+  primary_cost_ratio: 1.0
+  material_harm_threshold_attack_rate: 0.005
+  selectors:
+    - pooled_mean
+    - maximin_reference_anchored
+    - minimax_regret
+  primary_selector: maximin_reference_anchored
+  comparator_selector: pooled_mean
+  primary_gate:
+    require_lower_worst_heldout_harm: true
+    maximum_materially_harmed_families: 0
+    minimum_nonreference_selections_across_models: 1
+evaluation:
+  bootstrap_replicates: 10000
+  seed: 2026081903
+profiles:
+  smoke:
+    epidemic_models: [temporal_sir]
+    recognition_sensitivities: [0.50]
+    cost_ratios: [1.0]
+    heldout_families: [guinea_baboons_sociopatterns, oxford_wildbird_network]
+    bootstrap_replicates: 500
+    render_dpi: 110
+  full:
+    epidemic_models: [temporal_sir, temporal_seir_erlang]
+    recognition_sensitivities: [0.50, 0.75, 1.00]
+    cost_ratios: [0.25, 0.5, 1.0, 2.0, 4.0]
+    heldout_families: all
+    bootstrap_replicates: 10000
+    render_dpi: 180
+outputs:
+  results_root: results
+  reports_root: reports/safe_transfer_allocation

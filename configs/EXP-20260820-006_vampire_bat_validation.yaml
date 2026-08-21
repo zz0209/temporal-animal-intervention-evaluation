@@ -1,0 +1,96 @@
+experiment:
+  id: EXP-20260820-006
+  name: wild_vampire_bat_prospective_validation
+  evidence_level: independent_animal_system_validation
+  description: Prospective singleton-intervention labels from high-resolution roost proximity intervals.
+
+data:
+  dataset_id: wild_vampire_bats_proximity
+  display_name: Wild vampire bats
+  canonical_path: data/wild_vampire_bats_proximity/processed
+  primary_modality: high_resolution_dyadic_proximity
+  mapper: duration_contact
+
+windows:
+  lookback: 24h
+  horizon: 12h
+  step: 12h
+  min_history_events_per_node: 5
+  max_anchors: 5
+
+parameter_grid:
+  beta_values: [0.000005, 0.00001, 0.00002, 0.00005]
+  beta_unit: per_second_of_detected_proximity
+  mean_infectious_period_days: [0.25, 0.5, 1.0]
+  major_outbreak_attack_rate: 0.20
+  informative_mean_attack_rate_lower: 0.05
+  informative_mean_attack_rate_upper: 0.80
+  informative_major_outbreak_probability_lower: 0.05
+  informative_major_outbreak_probability_upper: 0.95
+  max_selected_scenarios: 3
+  required_reference:
+    beta: 0.00001
+    mean_infectious_period_days: 0.5
+
+intervention:
+  name: complete_contact_isolation
+  action_type: isolation
+  delay: 0s
+  duration: 12h
+  contact_multiplier: 0.0
+  susceptibility_multiplier: 1.0
+  infectivity_multiplier: 1.0
+  recovery_rate_multiplier: 1.0
+
+stability:
+  top_k: 8
+  consensus_minimum_contexts: 3
+  gates:
+    minimum_selected_scenarios: 3
+    minimum_informative_selected_scenarios: 3
+    aggregate_label_reliability: 0.70
+    parameter_median_spearman: 0.50
+    aggregate_label_candidate_separation_icc: 0.40
+
+execution:
+  runner: checkpointed_process_pool
+
+profiles:
+  smoke:
+    candidate_limit: 8
+    max_anchors: 2
+    calibration_parameter_limit: null
+    calibration_index_limit: 6
+    calibration_replicates_per_index: 1
+    selected_scenario_limit: 3
+    random_blocks: 2
+    non_index_cases_per_candidate_block: 2
+    self_index_replicates_per_block: 1
+    max_workers: 2
+    seed: 2026082006
+  full:
+    candidate_limit: null
+    max_anchors: 5
+    calibration_parameter_limit: null
+    calibration_index_limit: 16
+    calibration_replicates_per_index: 2
+    selected_scenario_limit: 3
+    random_blocks: 10
+    non_index_cases_per_candidate_block: 30
+    self_index_replicates_per_block: 1
+    max_workers: 9
+    seed: 2026082006
+
+report:
+  history_label: 24 hours of observed proximity
+  forecast_label: 12 hours of held-out proximity
+  population_noun: bats
+  observation_design:
+    - The source study followed one independently sampled wild vampire-bat roost.
+    - The published sensor exclusions and strict RSSI threshold are reproduced before windowing.
+    - Overlapping records for each unordered dyad are fused before transmission mapping.
+    - Treatment metadata remain descriptive and are not used as infection outcomes.
+
+outputs:
+  results_root: results
+  report_root: reports/g1_sim

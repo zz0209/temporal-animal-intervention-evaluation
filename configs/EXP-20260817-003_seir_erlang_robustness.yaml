@@ -1,0 +1,116 @@
+experiment:
+  id: EXP-20260817-003
+  name: staged_seir_policy_boundary_robustness
+  evidence_level: preregistered_alternative_epidemic_state_model_gate
+  description: Test the frozen policy boundary after adding a latent state and non-exponential Erlang latent and infectious periods, without expanding the intervention grid.
+
+data:
+  stable_prediction_path: results/EXP-20260816-006/full/forward_predictions.csv
+  prerequisite_audit: results/EXP-20260817-002/full/audit.json
+  reference_model_results: results/EXP-20260817-001/full
+  datasets:
+    oxford_wildbird_network:
+      source_config: configs/EXP-20260814-003_oxford_predefense.yaml
+      source_results: results/EXP-20260814-003/full
+      network_id: all
+      system_family: oxford_wildbird_network
+      analysis_cluster: anchor
+    guinea_baboons_sociopatterns:
+      source_config: configs/EXP-20260814-004_baboon_validation.yaml
+      source_results: results/EXP-20260814-004/full
+      network_id: all
+      system_family: guinea_baboons_sociopatterns
+      analysis_cluster: anchor
+    domestic_sheep_sirtrack:
+      source_config: configs/EXP-20260815-009_sheep_precision_repaired.yaml
+      source_results: results/EXP-20260815-009/full
+      system_family: domestic_sheep_sirtrack
+      analysis_cluster: network
+    wytham_great_tits_divorce:
+      source_config: configs/EXP-20260815-007_wytham_precision_repaired.yaml
+      source_results: results/EXP-20260815-007/full
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+    radolfzell_great_tits_ontogeny:
+      source_config: configs/EXP-20260815-011_radolfzell_validation.yaml
+      source_results: results/EXP-20260815-011/full
+      network_id: radolfzell_longitudinal_population
+      system_family: radolfzell_great_tits_ontogeny
+      analysis_cluster: anchor
+    experimental_wild_songbirds:
+      source_config: configs/EXP-20260816-001_experimental_songbirds_validation.yaml
+      source_results: results/EXP-20260816-001/full
+      network_id: wytham_songbird_manipulation_population
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+
+decision:
+  minimum_additional_budget: 1
+  additional_budget_fraction: 0.05
+  tracing_half_life_fraction_of_mean_infectious_period: 0.5
+  secondary_case_sensitivity: 0.5
+  secondary_case_sensitivities: [0.5]
+  false_positive_rates: [0.0]
+  detection_profiles:
+    - name: early_detection
+      delay_fraction_of_mean_infectious_period: 0.25
+    - name: delayed_detection
+      delay_fraction_of_mean_infectious_period: 0.75
+  action_delay_fractions_of_mean_infectious_period: [0.1]
+  residual_contact_multipliers: [0.25]
+  rewiring_mode: uniform_partner_substitution
+  rewiring_fractions: [0.0, 1.0]
+  methods:
+    - stable_watchlist
+    - contact_to_detected
+
+evaluation:
+  primary_method: contact_to_detected
+  primary_baseline: stable_watchlist
+  sensitivity_axis: disease_regime_rewiring
+  parameter_pool: informative
+  parameter_selection_mode: attack_rate_triplet
+  epidemic_model:
+    name: temporal_seir_erlang
+    latent_period_fraction_of_mean_infectious_period: 0.5
+    latent_stages: 2
+    infectious_stages: 3
+  mechanism_audit: false
+  bootstrap_replicates: 4000
+  seed: 2026081703
+  minimum_positive_random_block_fraction: 0.75
+  decision_rule:
+    retain_cross_model_boundary: early_direct_over_stable_is_positive_and_at_least_four_of_five_families_are_positive_under_full_rewiring_in_at_least_two_of_three_regimes
+    attack_rate_support: alternative_model_regimes_must_remain_strictly_ordered_with_a_family_equal_high_minus_low_gap_of_at_least_0.10
+    absolute_safety: relative_policy_advantage_must_not_be_interpreted_as_absolute_benefit
+    stop_after_this_gate: true
+
+profiles:
+  smoke:
+    datasets:
+      - oxford_wildbird_network
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+    max_anchors_per_dataset: 1
+    seeds_per_anchor: 1
+    random_blocks: 1
+    bootstrap_replicates: 100
+  full:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+      - experimental_wild_songbirds
+    max_anchors_per_dataset: null
+    seeds_per_anchor: 2
+    random_blocks: 2
+
+execution:
+  resume: true
+
+outputs:
+  results_root: results
+  report_root: reports/outbreak_response

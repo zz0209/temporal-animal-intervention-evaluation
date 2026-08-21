@@ -1,0 +1,70 @@
+experiment:
+  id: EXP-20260816-014
+  name: strict_loso_set_value_model
+  description: Predict the relative value of fixed-budget intervention sets in entirely unseen animal systems.
+
+data:
+  labels: results/EXP-20260816-013/full/conditional_set_labels.csv.gz
+  members: results/EXP-20260816-013/full/set_member_features.csv.gz
+  reliability: results/EXP-20260816-013/full/context_reliability.csv
+  precision_audit: results/EXP-20260816-013/full/audit.json
+
+features:
+  member:
+    - stable_percentile
+    - tracing_percentile
+    - activity_percentile
+    - has_positive_tracing
+    - stable_tracing_product
+  context:
+    - detection_delay_fraction
+    - secondary_case_sensitivity
+    - detected_case_fraction
+    - budget_fraction_realized
+    - log_population_size
+    - log_budget
+  ridge_set:
+    - set_stable_mean
+    - set_stable_max
+    - set_stable_std
+    - set_tracing_mean
+    - set_tracing_max
+    - set_tracing_std
+    - set_activity_mean
+    - set_activity_max
+    - set_positive_tracing_fraction
+    - set_stable_tracing_product_mean
+
+model:
+  ridge_penalty: 10.0
+  hidden_features: 32
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  batch_size: 512
+  maximum_epochs: 120
+  early_stopping_patience: 15
+  validation_anchor_fraction: 0.20
+  minimum_validation_anchors_per_family: 1
+
+evaluation:
+  seed: 2026081614
+  bootstrap_repetitions: 2000
+  primary_reference: stable_plus_tracing_base
+  minimum_family_equal_gain: 0.0
+  minimum_families_with_positive_gain: 3
+
+profiles:
+  smoke:
+    maximum_contexts_per_family: 12
+    maximum_epochs: 4
+    early_stopping_patience: 2
+  full:
+    maximum_contexts_per_family: null
+
+execution:
+  deterministic: true
+  preferred_device: cuda
+
+outputs:
+  results_root: results
+  report_root: reports/learnability

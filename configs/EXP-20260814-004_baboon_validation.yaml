@@ -1,0 +1,91 @@
+experiment:
+  id: EXP-20260814-004
+  name: guinea_baboon_cross_dataset_validation
+  evidence_level: cross_dataset_internal_validation
+  description: Primary RFID-proximity label construction and stability audit for Guinea baboons.
+
+data:
+  dataset_id: guinea_baboons_sociopatterns
+  display_name: Guinea baboons
+  canonical_path: data/guinea_baboons_sociopatterns/processed
+  raw_proximity_path: data/guinea_baboons_sociopatterns/raw/baboons_proximity_data.txt.gz
+  primary_modality: sensor_proximity
+  excluded_primary_modalities:
+    - direct_behavior
+
+windows:
+  lookback: 7d
+  horizon: 3d
+  step: 3d
+  max_anchors: 7
+  min_history_events_per_node: 20
+
+parameter_grid:
+  beta_values:
+    - 0.00001
+    - 0.00003
+    - 0.0001
+    - 0.0003
+    - 0.001
+  beta_unit: per_second_of_detected_proximity
+  mean_infectious_period_days:
+    - 0.5
+    - 1.0
+    - 2.0
+  major_outbreak_attack_rate: 0.30
+  informative_mean_attack_rate_lower: 0.10
+  informative_mean_attack_rate_upper: 0.90
+  informative_major_outbreak_probability_lower: 0.05
+  informative_major_outbreak_probability_upper: 0.95
+  max_selected_scenarios: 5
+  required_reference:
+    beta: 0.0001
+    mean_infectious_period_days: 1.0
+
+intervention:
+  name: complete_contact_isolation
+  action_type: isolation
+  delay: 0s
+  duration: 3d
+  contact_multiplier: 0.0
+  susceptibility_multiplier: 1.0
+  infectivity_multiplier: 1.0
+  recovery_rate_multiplier: 1.0
+
+stability:
+  top_k: 3
+  consensus_minimum_contexts: 10
+  gates:
+    minimum_selected_scenarios: 3
+    minimum_informative_selected_scenarios: 3
+    aggregate_label_reliability: 0.70
+    parameter_median_spearman: 0.50
+    aggregate_label_candidate_separation_icc: 0.40
+
+profiles:
+  smoke:
+    candidate_limit: 5
+    max_anchors: 1
+    calibration_parameter_limit: 4
+    calibration_index_limit: 6
+    calibration_replicates_per_index: 1
+    selected_scenario_limit: 2
+    random_blocks: 2
+    non_index_cases_per_candidate_block: 4
+    self_index_replicates_per_block: 2
+    seed: 2026081404
+  full:
+    candidate_limit: null
+    max_anchors: 7
+    calibration_parameter_limit: null
+    calibration_index_limit: null
+    calibration_replicates_per_index: 3
+    selected_scenario_limit: 5
+    random_blocks: 3
+    non_index_cases_per_candidate_block: 12
+    self_index_replicates_per_block: 4
+    seed: 2026081404
+
+outputs:
+  results_root: results
+  report_root: reports/g1_sim

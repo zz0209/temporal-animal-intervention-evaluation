@@ -1,0 +1,51 @@
+experiment:
+  id: EXP-20260818-001
+  name: support_and_source_value_audit
+  evidence_level: frozen_artifact_diagnostic
+  description: Audit observation support, first appearance, and the distinction between index-case source impact and prospective isolation value without changing any epidemic simulation.
+
+inputs:
+  canonical_root: data
+  labels: results/EXP-20260815-001/full/model_ready_labels.csv
+  history_features: results/EXP-20260816-005/full/history_features.csv
+  source_worlds:
+    oxford_wildbird_network: results/EXP-20260814-003/full/paired_world_outcomes.csv
+    guinea_baboons_sociopatterns: results/EXP-20260814-004/full/paired_world_outcomes.csv
+    domestic_sheep_sirtrack: results/EXP-20260815-009/full/paired_world_outcomes.csv
+    wytham_great_tits_divorce: results/EXP-20260815-007/full/paired_world_outcomes.csv
+    radolfzell_great_tits_ontogeny: results/EXP-20260815-011/full/paired_world_outcomes.csv
+    experimental_wild_songbirds: results/EXP-20260816-001/full/paired_world_outcomes.csv
+
+design:
+  context_key: [dataset_id, network_id, anchor_time]
+  candidate_key: [dataset_id, network_id, anchor_time, candidate_id]
+  history_only_support: true
+  support_interval: half_open_history_start_to_anchor
+  source_value_definition: Mean baseline final attack rate when the candidate is the simulated index case.
+  intervention_value_definition: Frozen robust mean avoided attack rate under singleton isolation.
+  independent_replication_unit: animal_system_family
+  minimum_candidates_for_context_correlation: 5
+  bootstrap_replicates: 4000
+  seed: 20260818
+
+profiles:
+  smoke:
+    datasets: [oxford_wildbird_network, guinea_baboons_sociopatterns]
+    max_contexts_per_dataset: 1
+    bootstrap_replicates: 100
+    render_dpi: 100
+  full:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+      - experimental_wild_songbirds
+    max_contexts_per_dataset: null
+    bootstrap_replicates: 4000
+    render_dpi: 180
+
+outputs:
+  results_root: results
+  report_root: reports/support_audit

@@ -1,0 +1,10 @@
+{
+  "dataset_id": "guinea_baboons_sociopatterns",
+  "accessed": "2026-08-13",
+  "source": "https://www.sociopatterns.org/datasets/baboons-interactions/",
+  "status": "complete",
+  "files": [
+    {"path": "raw/baboons_obs_data.txt.gz", "bytes": 31374, "sha256": "f8776a87a2159dac7bd32a7226844c9483c3e5d63f97add9350aa228b17f8b0f"},
+    {"path": "raw/baboons_proximity_data.txt.gz", "bytes": 284596, "sha256": "65fc7883adc97f8f79ab085bd07f41de0a5bc701c18494b11b47472a6454855a"}
+  ]
+}

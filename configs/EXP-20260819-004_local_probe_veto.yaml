@@ -1,0 +1,43 @@
+experiment_id: EXP-20260819-004
+slug: local_probe_veto
+inputs:
+  policy_worlds: results/EXP-20260818-010/full/policy_worlds.csv.gz
+  family_policy: results/EXP-20260818-010/full/family_policy.csv
+  source_audit: results/EXP-20260818-010/full/audit.json
+decision:
+  reference_sentinel_fraction: 0.10
+  reference_response_fraction: 0.05
+  cost_ratios: [0.25, 0.5, 1.0, 2.0, 4.0]
+  prior_time_requirements: [1, 2, 3]
+  primary_prior_times: 2
+  primary_recognition_sensitivity: 0.50
+  primary_cost_ratio: 1.0
+  material_harm_threshold_attack_rate: 0.005
+  local_rule: veto_zero_shot_candidate_when_strictly_prior_local_mean_gain_is_negative
+  primary_gate:
+    require_better_worst_family_than_zero_shot: true
+    maximum_materially_harmed_families: 0
+    minimum_nonreference_evaluations: 1
+evaluation:
+  bootstrap_replicates: 10000
+  seed: 2026081904
+profiles:
+  smoke:
+    epidemic_models: [temporal_sir]
+    recognition_sensitivities: [0.50]
+    cost_ratios: [1.0]
+    prior_time_requirements: [1, 2]
+    datasets: [guinea_baboons_sociopatterns, radolfzell_great_tits_ontogeny]
+    bootstrap_replicates: 500
+    render_dpi: 110
+  full:
+    epidemic_models: [temporal_sir, temporal_seir_erlang]
+    recognition_sensitivities: [0.50, 0.75, 1.00]
+    cost_ratios: [0.25, 0.5, 1.0, 2.0, 4.0]
+    prior_time_requirements: [1, 2, 3]
+    datasets: all
+    bootstrap_replicates: 10000
+    render_dpi: 180
+outputs:
+  results_root: results
+  reports_root: reports/local_probe_veto

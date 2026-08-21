@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "temporal-animal-intervention-evaluation"
+version = "1.0.0"
+description = "Prospective evaluation of epidemic intervention policies on temporal animal interaction networks"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  {name = "Zi Zhu", email = "zizhu@hsph.harvard.edu"},
+  {name = "Ruo Yan Hou", email = "sunnyhou@bu.edu"},
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-ra"
+

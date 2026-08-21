@@ -1,0 +1,63 @@
+experiment:
+  id: EXP-20260819-001
+  name: effective_surveillance_dose
+  evidence_level: preregistered_reanalysis_of_frozen_paired_worlds
+  description: Test whether recognition sensitivity multiplied by deployment-visible historical exposure coverage predicts early-detection performance in unseen animal systems better than recognition sensitivity multiplied by nominal animal coverage.
+
+data:
+  policy_worlds: results/EXP-20260818-010/full/policy_worlds.csv.gz
+  history_features: results/EXP-20260816-006/full/forward_predictions.csv
+  prerequisite_audit: results/EXP-20260818-010/full/audit.json
+  response_fraction_for_detection_audit: 0.0
+  history_exposure_column: weighted_exposure_rate
+
+estimands:
+  nominal_coverage: realized sentinel count divided by eligible animal count
+  history_exposure_coverage: sum of deployment-visible historical exposure weights assigned to sentinels divided by the sum over all eligible animals
+  nominal_effective_dose: nominal coverage multiplied by recognition sensitivity
+  network_effective_dose: history exposure coverage multiplied by recognition sensitivity
+  detection_success: whether at least one infected sentinel is recognized within the forecast horizon
+  avoidable_downstream_fraction: natural final cases minus cases accrued by detection, divided by natural final cases minus the index case; zero when no downstream case exists
+
+evaluation:
+  independent_replication_unit: animal_system_family
+  cross_validation: leave_one_independent_animal_system_family_out
+  epidemic_models:
+    - temporal_sir
+    - temporal_seir_erlang
+  dose_response_curve: one_minus_exp_negative_rate_times_dose
+  detection_loss: brier_score
+  avoidable_burden_loss: downstream_case_weighted_absolute_error
+  curve_parameter_grid:
+    minimum: 0.01
+    maximum: 1000.0
+    points: 4000
+  bootstrap_replicates: 10000
+  seed: 2026081901
+  primary_comparison: nominal_loss_minus_network_loss
+  strong_gate: network dose has a family-bootstrap 95 percent interval lower bound above zero and at least four of five held-out families improve for both endpoints in both epidemic models
+  directional_gate: network dose has positive family-equal mean improvement and at least three of five held-out families improve for both endpoints in both epidemic models
+  interpretation:
+    strong: exposure-adjusted effective dose is supported as a transportable quantitative replacement for nominal surveillance coverage within this simulator-conditional benchmark
+    directional: exposure adjustment is promising but requires more independent animal systems before use as a quantitative planning law
+    unsupported: retain exposure coverage as a descriptive audit only; do not claim predictive transportability
+  stop_rule: do not change coverage definition, curve family, endpoints, folds, gates, or epidemic worlds after full outcomes
+
+profiles:
+  smoke:
+    heldout_families: 2
+    epidemic_models:
+      - temporal_sir
+    bootstrap_replicates: 200
+    render_dpi: 110
+  full:
+    heldout_families: null
+    epidemic_models:
+      - temporal_sir
+      - temporal_seir_erlang
+    bootstrap_replicates: 10000
+    render_dpi: 180
+
+outputs:
+  results_root: results
+  report_root: reports/effective_surveillance_dose

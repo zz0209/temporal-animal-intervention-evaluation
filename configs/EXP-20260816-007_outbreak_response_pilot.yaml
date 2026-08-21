@@ -1,0 +1,69 @@
+experiment:
+  id: EXP-20260816-007
+  name: detection_triggered_outbreak_response_pilot
+  evidence_level: cross_system_mechanism_pilot
+  description: Compare preparedness watchlists with detection-triggered contact-informed quarantine.
+
+data:
+  stable_prediction_path: results/EXP-20260816-006/full/forward_predictions.csv
+  datasets:
+    guinea_baboons_sociopatterns:
+      source_config: configs/EXP-20260814-004_baboon_validation.yaml
+      source_results: results/EXP-20260814-004/full
+      network_id: all
+      system_family: guinea_baboons_sociopatterns
+      analysis_cluster: anchor
+    experimental_wild_songbirds:
+      source_config: configs/EXP-20260816-001_experimental_songbirds_validation.yaml
+      source_results: results/EXP-20260816-001/full
+      network_id: wytham_songbird_manipulation_population
+      system_family: linked_wytham_songbird_family
+      analysis_cluster: anchor
+
+decision:
+  additional_budget_fraction: 0.05
+  minimum_additional_budget: 1
+  tracing_half_life_fraction_of_mean_infectious_period: 0.5
+  detection_profiles:
+    - name: early_detection
+      delay_fraction_of_mean_infectious_period: 0.25
+    - name: delayed_detection
+      delay_fraction_of_mean_infectious_period: 0.75
+  methods:
+    - random
+    - stable_watchlist
+    - current_activity
+    - contact_to_detected
+    - stable_plus_tracing
+    - perfect_state_diagnostic
+
+evaluation:
+  primary_method: stable_plus_tracing
+  primary_baseline: stable_watchlist
+  bootstrap_replicates: 2000
+  seed: 2026081607
+
+profiles:
+  smoke:
+    datasets:
+      - guinea_baboons_sociopatterns
+      - experimental_wild_songbirds
+    max_anchors_per_dataset: 1
+    selected_parameter_limit: 1
+    seeds_per_anchor: 2
+    random_blocks: 1
+  full:
+    datasets:
+      - guinea_baboons_sociopatterns
+      - experimental_wild_songbirds
+    max_anchors_per_dataset: null
+    selected_parameter_limit: 3
+    seeds_per_anchor: 6
+    random_blocks: 1
+
+execution:
+  resume: true
+
+outputs:
+  results_root: results
+  report_root: reports/outbreak_response

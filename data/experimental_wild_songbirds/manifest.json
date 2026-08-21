@@ -1,0 +1,9 @@
+{
+  "dataset_id": "experimental_wild_songbirds",
+  "accessed": "2026-08-13",
+  "source": "https://doi.org/10.5061/dryad.6h4t2",
+  "status": "complete",
+  "metadata_files": ["raw/dryad_metadata.json", "raw/dryad_file_list.json"],
+  "files": [{"path": "raw/dryad_data.RData", "bytes": 1094512, "md5": "cbf0f8fe8d356536d82644e2b19220da", "sha256": "31a3b32ff74a2c3795176b63da4aa230a28eeebb68b39a4dbd7fc05b9a8dfe53"}],
+  "verification": "MD5 matches Dryad's official file manifest."
+}

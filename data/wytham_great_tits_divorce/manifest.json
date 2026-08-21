@@ -1,0 +1,10 @@
+{
+  "dataset_id": "wytham_great_tits_divorce",
+  "accessed": "2026-08-13",
+  "source": "https://doi.org/10.5061/dryad.vq83bk453",
+  "status": "complete",
+  "metadata_files": ["raw/dryad_metadata.json", "raw/dryad_file_list.json"],
+  "archive": {"path": "raw/doi_10_5061_dryad_vq83bk453__v20250708.zip", "bytes": 1894419987, "sha256": "3542b08776ff459eb381b3740553a8ab4d11395ec98a59c4137e1d3e913be19e"},
+  "payload": {"files": 16, "uncompressed_bytes": 1894417771},
+  "verification": "16/16 filenames and uncompressed sizes match Dryad's official manifest."
+}

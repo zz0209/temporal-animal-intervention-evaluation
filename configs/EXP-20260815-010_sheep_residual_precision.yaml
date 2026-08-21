@@ -1,0 +1,55 @@
+experiment:
+  id: EXP-20260815-010
+  name: domestic_sheep_residual_precision_adjudication
+  evidence_level: monte_carlo_design_validation
+  source_experiment_id: EXP-20260815-002
+
+data:
+  canonical_path: data/domestic_sheep_sirtrack/processed
+  raw_measurements_path: data/domestic_sheep_sirtrack/raw/Animal_measurements_data_Amorris_2023.csv
+
+windows:
+  lookback: 14d
+  horizon: 7d
+  step: 7d
+  max_anchors: 6
+  min_history_events_per_node: 20
+
+pilot:
+  anchor_ids:
+    - Partially.parasitised.2::anchor_001
+    - Partially.parasitised.2::anchor_002
+    - Partially.parasitised.4::anchor_002
+  original_precision_classes:
+    Partially.parasitised.2::anchor_001: low_rank_reliability
+    Partially.parasitised.2::anchor_002: low_on_both_diagnostics
+    Partially.parasitised.4::anchor_002: low_on_both_diagnostics
+  random_block_levels:
+    - 24
+    - 48
+  non_index_cases_per_candidate_block: 4
+  self_index_replicates_per_block: 4
+  candidate_limit: null
+  max_workers: 9
+  seed: 2026081502
+
+intervention:
+  name: complete_contact_isolation
+  action_type: isolation
+  delay: 0s
+  duration: 7d
+  contact_multiplier: 0.0
+  susceptibility_multiplier: 1.0
+  infectivity_multiplier: 1.0
+  recovery_rate_multiplier: 1.0
+
+stability:
+  top_k: 2
+  gates:
+    aggregate_label_reliability: 0.70
+    aggregate_label_candidate_separation_icc: 0.40
+    rank_correlation_to_maximum_level: 0.90
+
+outputs:
+  results_root: results
+  report_root: reports/g1_sim

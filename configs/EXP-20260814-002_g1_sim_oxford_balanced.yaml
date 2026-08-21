@@ -1,0 +1,55 @@
+experiment:
+  id: EXP-20260814-002
+  name: g1_sim_oxford_balanced_introductions
+  evidence_level: engineering_pilot
+  description: Balanced index-case strata for paired singleton intervention values.
+
+data:
+  canonical_path: data/oxford_wildbird_network/processed
+  mapper: primary_contract_driven
+
+windows:
+  lookback: 2d
+  horizon: 2d
+  step: 1d
+  max_anchors: 3
+  min_history_events_per_node: 2
+
+epidemic:
+  model: SIR
+  beta_per_integrated_association: 2.0
+  recovery_rate_per_day: 0.25
+  initial_infected_count: 1
+
+intervention:
+  name: complete_contact_isolation
+  action_type: isolation
+  delay: 0s
+  duration: 2d
+  contact_multiplier: 0.0
+  susceptibility_multiplier: 1.0
+  infectivity_multiplier: 1.0
+  recovery_rate_multiplier: 1.0
+
+estimation:
+  design: balanced_index_strata
+  self_seed_replicates: 4
+  bootstrap_replicates: 1000
+  primary_estimand: unconditional_value
+  secondary_estimands:
+    - known_index_value
+    - non_index_value
+
+profiles:
+  smoke:
+    candidate_limit: 8
+    max_anchors: 1
+    seed: 2026081402
+  full:
+    candidate_limit: null
+    max_anchors: 3
+    seed: 2026081402
+
+outputs:
+  results_root: results
+  report_root: reports/g1_sim

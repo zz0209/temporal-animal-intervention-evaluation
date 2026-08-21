@@ -1,0 +1,177 @@
+experiment:
+  id: EXP-20260817-009
+  name: final_frozen_evidence_package
+  evidence_level: reconstruction_and_claim_audit
+  description: Reconstruct manuscript-facing tables and comparison coverage from frozen source artifacts without new simulation or policy tuning.
+
+sources:
+  audits:
+    - results/EXP-20260816-005/full/audit.json
+    - results/EXP-20260816-006/full/audit.json
+    - results/EXP-20260816-014/full/audit.json
+    - results/EXP-20260816-015/full/audit.json
+    - results/EXP-20260816-016/full/audit.json
+    - results/EXP-20260816-017/full/audit.json
+    - results/EXP-20260816-018/full/audit.json
+    - results/EXP-20260816-019/full/audit.json
+    - results/EXP-20260816-020/full/audit.json
+    - results/EXP-20260817-001/full/audit.json
+    - results/EXP-20260817-002/full/audit.json
+    - results/EXP-20260817-003/full/audit.json
+    - results/EXP-20260817-004/full/audit.json
+    - results/EXP-20260817-005/full/audit.json
+    - results/EXP-20260817-006/full/audit.json
+    - results/EXP-20260817-007/full/audit.json
+    - results/EXP-20260817-008/full/audit.json
+    - results/EXP-20260818-001/full/audit.json
+  temporal_increment: results/EXP-20260816-005/full/temporal_summary_increment.csv
+  forward_strategy: results/EXP-20260816-006/full/strategy_difference_summary.csv
+  learned_models: results/EXP-20260816-014/full/overall_model_summary.csv
+  ranking_model_audit: results/EXP-20260816-015/full/audit.json
+  selective_model_audit: results/EXP-20260816-016/full/audit.json
+  closest_prior: results/EXP-20260817-005/full/closest_prior_gate.csv
+  decision_map: results/EXP-20260817-006/full/policy_decision_map.csv
+  deletion_resilience: results/EXP-20260817-007/full/decision_resilience.csv
+  evidence_taxonomy: results/EXP-20260817-008/full/evidence_taxonomy.csv
+  novelty_matrix: results/EXP-20260817-005/full/novelty_matrix.csv
+
+design:
+  independent_replication_unit: animal_system_family
+  independent_families: 5
+  nested_units: [analysis_cluster_id, anchor_id, random_block, world_seed]
+  reconstruction_only: true
+  prohibit_new_simulation: true
+  prohibit_threshold_changes: true
+  prohibit_post_hoc_method_selection: true
+
+comparison_families:
+  - method_family: Random/null
+    node_ranking: true
+    fixed_budget_sets: true
+    strict_forward: true
+    outbreak_update: false
+    no_extra_control: true
+    loso_family: true
+  - method_family: Static centrality
+    node_ranking: true
+    fixed_budget_sets: false
+    strict_forward: true
+    outbreak_update: false
+    no_extra_control: false
+    loso_family: true
+  - method_family: Temporal centrality
+    node_ranking: true
+    fixed_budget_sets: false
+    strict_forward: true
+    outbreak_update: false
+    no_extra_control: false
+    loso_family: true
+  - method_family: History weight/recency
+    node_ranking: true
+    fixed_budget_sets: true
+    strict_forward: true
+    outbreak_update: false
+    no_extra_control: true
+    loso_family: true
+  - method_family: Stable watchlist
+    node_ranking: true
+    fixed_budget_sets: true
+    strict_forward: true
+    outbreak_update: false
+    no_extra_control: true
+    loso_family: true
+  - method_family: Ridge
+    node_ranking: true
+    fixed_budget_sets: true
+    strict_forward: true
+    outbreak_update: false
+    no_extra_control: true
+    loso_family: true
+  - method_family: Deep Sets / pairwise ranker
+    node_ranking: false
+    fixed_budget_sets: true
+    strict_forward: true
+    outbreak_update: false
+    no_extra_control: true
+    loso_family: true
+  - method_family: Detected-case contacts
+    node_ranking: false
+    fixed_budget_sets: true
+    strict_forward: true
+    outbreak_update: true
+    no_extra_control: true
+    loso_family: true
+  - method_family: Stable + tracing / fusion
+    node_ranking: false
+    fixed_budget_sets: true
+    strict_forward: true
+    outbreak_update: true
+    no_extra_control: true
+    loso_family: true
+  - method_family: No-extra standard care
+    node_ranking: false
+    fixed_budget_sets: true
+    strict_forward: true
+    outbreak_update: false
+    no_extra_control: true
+    loso_family: true
+
+claim_ledger:
+  - claim_id: C1_temporal_order
+    claim: Tested temporal-order centralities do not show a robust increment over matched static summaries.
+    status: supported_null_within_tested_methods
+    source_experiments: EXP-20260816-005
+    transportability: five_family_hierarchical
+    field_validity: model_based_labels
+  - claim_id: C2_learned_planners
+    claim: Ridge, Deep Sets, pairwise ranking, and selective learned overrides do not outperform the transparent reference under strict held-out-family evaluation.
+    status: supported_negative_result
+    source_experiments: EXP-20260816-014|EXP-20260816-015|EXP-20260816-016
+    transportability: four_family_loso
+    field_validity: model_based_set_values
+  - claim_id: C3_preparedness_reference
+    claim: History weight is the defensible preparedness reference; the simulation-derived stable watchlist is not superior to closest history comparators.
+    status: supported_baseline_revision
+    source_experiments: EXP-20260817-005
+    transportability: five_family_hierarchical
+    field_validity: model_based_counterfactual
+  - claim_id: C4_conditional_update
+    claim: Detected-case contact updates have pooled conditional value under delayed staged SEIR/Erlang assumptions but are not whole-family-deletion robust.
+    status: conditionally_supported_not_transportable
+    source_experiments: EXP-20260817-006|EXP-20260817-007
+    transportability: deletion_gate_failed
+    field_validity: model_based_counterfactual
+  - claim_id: C5_dual_safety
+    claim: Relative policy improvement cannot replace an absolute comparison with no additional targeting; unresolved cells require abstention.
+    status: supported_decision_principle
+    source_experiments: EXP-20260817-006|EXP-20260817-008
+    transportability: three_abstentions_deletion_invariant
+    field_validity: model_based_counterfactual
+  - claim_id: C6_universal_policy
+    claim: A universal cross-animal-system policy winner is not supported.
+    status: supported_rejection
+    source_experiments: EXP-20260817-007|EXP-20260817-008
+    transportability: direct_test
+    field_validity: five_empirical_system_families
+  - claim_id: C7_field_effectiveness
+    claim: Field effectiveness for a named pathogen or population is established.
+    status: not_supported_and_excluded
+    source_experiments: none
+    transportability: not_applicable
+    field_validity: no_observed_outbreak_outcomes
+  - claim_id: C8_source_vs_intervention
+    claim: Index-case source impact is strongly associated with, but is not interchangeable with, prospective intervention value; first appearance and observation support must remain explicit covariates and eligibility diagnostics.
+    status: supported_distinction_and_support_audit
+    source_experiments: EXP-20260818-001
+    transportability: five_family_hierarchical
+    field_validity: model_based_counterfactual
+
+profiles:
+  smoke:
+    render_dpi: 100
+  full:
+    render_dpi: 180
+
+outputs:
+  results_root: results
+  report_root: reports/final_evidence

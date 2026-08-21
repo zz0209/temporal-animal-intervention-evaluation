@@ -1,0 +1,20 @@
+experiment_id: EXP-20260820-005
+description: Family-level quantitative synthesis of frozen sensitivity experiments.
+
+sources:
+  delivery_absolute_family: results/EXP-20260816-017/full/absolute_family_summary.csv
+  delivery_relative_family: results/EXP-20260816-017/full/relative_family_summary.csv
+  observation_relative_family: results/EXP-20260817-006/full/observation_relative_family.csv
+  observation_absolute_family: results/EXP-20260817-006/full/observation_absolute_family.csv
+  rewiring_reference_family: results/EXP-20260816-019/full/relative_family_summary.csv
+  rewiring_precision_family: results/EXP-20260816-020/full/relative_family_summary.csv
+  sir_regime_family: results/EXP-20260817-001/full/relative_family_summary.csv
+  seir_regime_family: results/EXP-20260817-003/full/relative_family_summary.csv
+  group_mapping_family: results/EXP-20260819-008/full/mapping_family_summary.csv
+  temporal_family_metrics: results/EXP-20260816-005/full/ordered_family_metrics.csv
+  local_calibration_family: results/EXP-20260819-002/full/primary_improvements.csv
+
+outputs:
+  results_dir: results/EXP-20260820-005/full
+  manuscript_data: paper/S1_Data_sensitivity.csv
+  figure: paper/figures/FigS2.png

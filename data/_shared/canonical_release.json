@@ -1,0 +1,205 @@
+{
+  "release_id": "canonical-20260816-r01",
+  "created_at_utc": "2026-08-16T03:12:39+00:00",
+  "hash_algorithm": "sha256",
+  "dataset_count": 7,
+  "release_ready": true,
+  "datasets": [
+    {
+      "dataset_id": "barn_swallows_encounternet",
+      "adapter_name": "BarnSwallowsAdapter",
+      "adapter_version": "0.1.0",
+      "has_temporal_order": false,
+      "primary_event_mode": "unordered_dyadic",
+      "source_manifest_sha256": "6079c600bdd9643f6d5917ba8f53bdb0059fa4e2bd80856df6fa933bc2dd1d44",
+      "source_payload_verification_status": "verified",
+      "canonical_validation_has_errors": false,
+      "canonical_counts": {
+        "individuals": 17,
+        "dyadic_events": 733,
+        "group_events": 0,
+        "group_memberships": 0,
+        "observation_windows": 0
+      },
+      "processed_files_sha256": {
+        "dataset_metadata.json": "44edad6bd44978eed4c4342c2c712c93e9a334cf8be52005b9cb7d00f70f2c59",
+        "dyadic_events.parquet": "c0ef5edc3ef42005f0db0440b39b96ad53e35225f7e0878de6ab36e1d13a1663",
+        "group_events.parquet": "cd89d614a7c3085589c339ab9e1465d302a894562661731f36a9454858b33a9f",
+        "group_memberships.parquet": "f7f017d5bd184e738634857c0010868db323e00033d339f5659b9fd8a75a8256",
+        "individuals.parquet": "ccf495fcb737380a03fff42d4047ac62e4f6bf87fb192d5e2f6360236a22eb66",
+        "manifest_verification.json": "f0278847dddb9d70f5c79b273f5eaa252e1da09024d6358b0d8e39a9abc3746b",
+        "observation_windows.parquet": "17d6d705c140737e85e8f712e9ef4ff2347a30675ca7337eb290b8d31a9ac251",
+        "summary.json": "eed399bb9204621a8615ab53aeb125e6c371f4163973be35d13496be0350ab1e",
+        "validation_report.json": "16b5289c6e1bbc800f688173c62e9d3be8e022556f3b448a68e8b9d7acb85010"
+      }
+    },
+    {
+      "dataset_id": "domestic_sheep_sirtrack",
+      "adapter_name": "DomesticSheepAdapter",
+      "adapter_version": "0.1.0",
+      "has_temporal_order": true,
+      "primary_event_mode": "dyadic_interval",
+      "source_manifest_sha256": "311d8488fc37ab53bbf98e385b9940799a11ca0866d1440c081866de762e456c",
+      "source_payload_verification_status": "verified",
+      "canonical_validation_has_errors": false,
+      "canonical_counts": {
+        "individuals": 60,
+        "dyadic_events": 299587,
+        "group_events": 0,
+        "group_memberships": 0,
+        "observation_windows": 60
+      },
+      "processed_files_sha256": {
+        "dataset_metadata.json": "d15abd3735cff763dd4393dd8c5809e2d08e16a4cda883421d44146fd0207a5f",
+        "dyadic_events.parquet": "a48ebbec3bf51d3034d7b64fcc6ea723efe2aea38bddb3360f20bc41940e23cb",
+        "group_events.parquet": "cd89d614a7c3085589c339ab9e1465d302a894562661731f36a9454858b33a9f",
+        "group_memberships.parquet": "f7f017d5bd184e738634857c0010868db323e00033d339f5659b9fd8a75a8256",
+        "individuals.parquet": "8b906b539843b5390de20d19a8e282ac1e44af6dac86ddac8a04c9f410a7efe3",
+        "manifest_verification.json": "d8b4e5171e1ffe13d13dcb49a5ccce3b24de7c286275820aea5bb715a97c7159",
+        "observation_windows.parquet": "d2e35d7257ccf31d486be47e5e130c3521aa9dbaed8a641ecacd230e21695e47",
+        "summary.json": "2a7b92a1605c0f92ca895b065e473d71ec41828f277cb3bf051c9c6adbe18a63",
+        "validation_report.json": "b9e71b7b161d2652efac0f72d736079b0637f9775ff3f453df3f14c26056fabf"
+      }
+    },
+    {
+      "dataset_id": "experimental_wild_songbirds",
+      "adapter_name": "ExperimentalSongbirdsAdapter",
+      "adapter_version": "0.2.0",
+      "has_temporal_order": true,
+      "primary_event_mode": "group_event",
+      "source_manifest_sha256": "575adeee0b85fae3d33c2bf6ee8d8241a64d462b10c295bdb70bb7af3e4a76c8",
+      "source_payload_verification_status": "verified",
+      "canonical_validation_has_errors": false,
+      "canonical_counts": {
+        "individuals": 381,
+        "dyadic_events": 0,
+        "group_events": 63437,
+        "group_memberships": 237433,
+        "observation_windows": 375
+      },
+      "processed_files_sha256": {
+        "dataset_metadata.json": "034648f5ee4b09382031cfc3c8dd8d225ad63e96b8baab77ddd06f266354d7b3",
+        "dyadic_events.parquet": "7a83df541b7a934f14a8acc11f7855e04cdd23d0856b9ce0908ea246ff5946ca",
+        "group_events.parquet": "210d52bf54f606b199f608401cf65b4d34fcbce0083a69fe3943dff0e431e221",
+        "group_memberships.parquet": "b937de4f7f546609411a0a6b75ceac0309f88027d8690b740b33f8a369959b82",
+        "individuals.parquet": "d7c1187495c7ed825280662d2bf9dd7ff3c50a233c15b6d8951446a379acc91b",
+        "manifest_verification.json": "88c8c00c220160933501bdd765fd68cf0c9a8c9618aa0cee5365253cdf10c453",
+        "observation_windows.parquet": "a0b798d04aef88a77077f66a79235dd67c6a8982c7662ae387af10b3814d5717",
+        "summary.json": "df770af280c7085f68844fa650a631bbfa5de298de0963bed94be53c8b6f91aa",
+        "validation_report.json": "a0828933091edf9e855fdd4013e5929d9662aa7e4bbe40a94e8a3d17dc50c6d6"
+      }
+    },
+    {
+      "dataset_id": "guinea_baboons_sociopatterns",
+      "adapter_name": "GuineaBaboonsAdapter",
+      "adapter_version": "0.1.0",
+      "has_temporal_order": true,
+      "primary_event_mode": "dyadic",
+      "source_manifest_sha256": "f46c3477ca4b55b02a83f8beab278a577af687550b448da49e64cc048b0bbcd4",
+      "source_payload_verification_status": "verified",
+      "canonical_validation_has_errors": false,
+      "canonical_counts": {
+        "individuals": 21,
+        "dyadic_events": 66287,
+        "group_events": 0,
+        "group_memberships": 0,
+        "observation_windows": 21
+      },
+      "processed_files_sha256": {
+        "dataset_metadata.json": "2f6c5343406d4ffc6f6108a7d91c60a2469e78f86c627f7c69d10a274aa57e82",
+        "dyadic_events.parquet": "b786091eccefb63bfa6768ea23f03b496b8510423d51194b6233d66341ce2015",
+        "group_events.parquet": "cd89d614a7c3085589c339ab9e1465d302a894562661731f36a9454858b33a9f",
+        "group_memberships.parquet": "f7f017d5bd184e738634857c0010868db323e00033d339f5659b9fd8a75a8256",
+        "individuals.parquet": "2702ee0f3c5040f195c15930dab6181b4878643cd47c31ff8ea54fbb0b66839b",
+        "manifest_verification.json": "d014dff1aa8dc756ef9134e9dd7056b7fce6fc4504095c662dc9aebd7833c6ba",
+        "observation_windows.parquet": "455cfe3da0b1b968cd0378883fb5fc8743ddc457fc919ff4f7aa8fbbdd4cc74c",
+        "summary.json": "01fa0fd29dcc5a888568cd7e00fde40740701b33a64adccf551b2ccb6218c55d",
+        "validation_report.json": "1701f99f1227308b78c81459064621721bc7dfcd3928edcc3752eccf0b2ac2e9"
+      }
+    },
+    {
+      "dataset_id": "oxford_wildbird_network",
+      "adapter_name": "OxfordWildbirdAdapter",
+      "adapter_version": "0.1.0",
+      "has_temporal_order": true,
+      "primary_event_mode": "aggregated_dyadic",
+      "source_manifest_sha256": "26881fbf5fc13284e10a448bb3f6683ceef326c2f840bd52a02294d33369be1a",
+      "source_payload_verification_status": "verified",
+      "canonical_validation_has_errors": false,
+      "canonical_counts": {
+        "individuals": 202,
+        "dyadic_events": 11900,
+        "group_events": 0,
+        "group_memberships": 0,
+        "observation_windows": 202
+      },
+      "processed_files_sha256": {
+        "dataset_metadata.json": "36d8b024210006542fc1eea517604f0cea2616a8f24819b8a17d7adbc1a02d3e",
+        "dyadic_events.parquet": "474081f28be93541becf4b4c1a3d835dc758226054015eea50dfee014c00f4c4",
+        "group_events.parquet": "cd89d614a7c3085589c339ab9e1465d302a894562661731f36a9454858b33a9f",
+        "group_memberships.parquet": "f7f017d5bd184e738634857c0010868db323e00033d339f5659b9fd8a75a8256",
+        "individuals.parquet": "7d41b4d0b7aa66faf21aec611a848108bdba051060cdca91123892808fe56028",
+        "manifest_verification.json": "a6aea43183d807e220ee483ac4114401749939a10b212071c9840f8e2f92b005",
+        "observation_windows.parquet": "967a9929dc94eeefcb0cd8ebbb5d5988712c3fa8a7c0f25ba64f4e2510fcc489",
+        "summary.json": "317d326763f64cb9e13a4ffaf959e50badf0f9e3fb273621b4b23a41248bb45b",
+        "validation_report.json": "d3fc9675890cfa528aad9e697263ffffa97866c8cdb47f3e97031fa5dfbb82ca"
+      }
+    },
+    {
+      "dataset_id": "radolfzell_great_tits_ontogeny",
+      "adapter_name": "RadolfzellGreatTitsAdapter",
+      "adapter_version": "0.2.0",
+      "has_temporal_order": true,
+      "primary_event_mode": "group_event",
+      "source_manifest_sha256": "8ae2b3c5941a2bec8ba59c483482390d30fd64963d022c6531bfe2ebff94bef1",
+      "source_payload_verification_status": "verified",
+      "canonical_validation_has_errors": false,
+      "canonical_counts": {
+        "individuals": 2266,
+        "dyadic_events": 0,
+        "group_events": 6551,
+        "group_memberships": 25963,
+        "observation_windows": 306
+      },
+      "processed_files_sha256": {
+        "dataset_metadata.json": "12c71ce68a7cb084640db3b30493ab67811db6cd73707ea0372e3bc817db5321",
+        "dyadic_events.parquet": "7a83df541b7a934f14a8acc11f7855e04cdd23d0856b9ce0908ea246ff5946ca",
+        "group_events.parquet": "d6b75d9602a6a17222cf4951ff19feded94ae2306878399e5067cea59aa41473",
+        "group_memberships.parquet": "c5575639ee9d5d1b600e3cd13ce6c4b082e82ff2b8c9143d167b7797a92d15eb",
+        "individuals.parquet": "a7718f545160860a35470de784498d869cacce91929d16548fca516ee3018540",
+        "manifest_verification.json": "706d461bedbff86fff5110ecc58ea48e48fd8a326a3ddbdd886e52a1812c034f",
+        "observation_windows.parquet": "a363960994855771559d6c48e7e9d48339f01920515ce17a4b624835655fb591",
+        "summary.json": "2c270d0869f9f3d56fb2fbb335f39151fb678bb42aea7b6684dce667015bb71e",
+        "validation_report.json": "6699630b2e9cb09936d784791604a651474de0dfbdd81c24b35d6bb6e2900dec"
+      }
+    },
+    {
+      "dataset_id": "wytham_great_tits_divorce",
+      "adapter_name": "WythamGreatTitsAdapter",
+      "adapter_version": "0.1.0",
+      "has_temporal_order": true,
+      "primary_event_mode": "group_event",
+      "source_manifest_sha256": "281a850c83f196e3d15a8a9048bef00b603d8601093ff60ef56f6b47517ad136",
+      "source_payload_verification_status": "verified",
+      "canonical_validation_has_errors": false,
+      "canonical_counts": {
+        "individuals": 5343,
+        "dyadic_events": 0,
+        "group_events": 312829,
+        "group_memberships": 2390714,
+        "observation_windows": 4971
+      },
+      "processed_files_sha256": {
+        "dataset_metadata.json": "3651a0f149f874fb9bd06ddf96c906cf4e13d405366a3d6b62c37499211a0bd2",
+        "dyadic_events.parquet": "7a83df541b7a934f14a8acc11f7855e04cdd23d0856b9ce0908ea246ff5946ca",
+        "group_events.parquet": "2d88abf688a46f2b42635f2a4739326ce98863df7dba3a23c5c4db8ed7ac0e71",
+        "group_memberships.parquet": "fa48c860e2527eb34f0be386968fd0d25f9bee5ed8373ad711c2e6739f10a720",
+        "individuals.parquet": "d8d2b8d8ca2fd7287106d1ecb80e69a1c40599c7b6f4e71e10a58ab1c481810c",
+        "manifest_verification.json": "46f0748ea6390470ae7e3036d7dd6a37e73197a88fd23f8457e5c9cdbe416606",
+        "observation_windows.parquet": "91fc2bba85db9025b11729c18b92a52eaec70a056bc792480bd13fcf6c1bd8da",
+        "summary.json": "77d428751c139d8f63189850667f9d4e4cf76a2b4743546a3875df0234cf3bd3",
+        "validation_report.json": "21b2a4fe2ff7d18e24dd63a4b368291b59f10c133dad82e86b7f1fe28c192cfa"
+      }
+    }
+  ]
+}

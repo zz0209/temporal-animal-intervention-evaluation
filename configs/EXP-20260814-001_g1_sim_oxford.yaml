@@ -1,0 +1,46 @@
+experiment:
+  id: EXP-20260814-001
+  name: g1_sim_oxford_engineering_pilot
+  evidence_level: engineering_pilot
+  description: Paired singleton-isolation intervention-value validation on Oxford data.
+
+data:
+  canonical_path: data/oxford_wildbird_network/processed
+  mapper: primary_contract_driven
+
+windows:
+  lookback: 2d
+  horizon: 2d
+  step: 1d
+  max_anchors: 3
+  min_history_events_per_node: 2
+
+epidemic:
+  model: SIR
+  beta_per_integrated_association: 2.0
+  recovery_rate_per_day: 0.25
+  initial_infected_count: 1
+
+intervention:
+  name: complete_contact_isolation
+  action_type: isolation
+  delay: 0s
+  duration: 2d
+  contact_multiplier: 0.0
+  susceptibility_multiplier: 1.0
+  infectivity_multiplier: 1.0
+  recovery_rate_multiplier: 1.0
+
+profiles:
+  smoke:
+    worlds: 8
+    candidate_limit: 8
+    seed: 2026081401
+  full:
+    worlds: 16
+    candidate_limit: null
+    seed: 2026081401
+
+outputs:
+  results_root: results
+  report_root: reports/g1_sim

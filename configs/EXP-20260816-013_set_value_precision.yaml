@@ -1,0 +1,47 @@
+experiment:
+  id: EXP-20260816-013
+  name: conditional_set_value_precision
+  description: Freeze each observed detection-time decision context and resample only the post-detection epidemic continuation.
+
+data:
+  coverage_config: configs/EXP-20260816-012_set_value_coverage.yaml
+  coverage_values: results/EXP-20260816-012/full/sampled_set_values.csv.gz
+  stable_prediction_path: results/EXP-20260816-006/full/forward_predictions.csv
+
+evaluation:
+  seed: 2026081613
+  top_fraction: 0.25
+  minimum_reproducible_context_fraction: 0.10
+  minimum_reproducible_anchors_per_family: 2
+  maximum_normalized_cross_half_regret: 0.50
+  minimum_top_overlap_above_chance: 0.05
+  minimum_qualifying_families: 3
+  minimum_family_equal_reproducible_fraction: 0.15
+
+profiles:
+  smoke:
+    datasets:
+      - guinea_baboons_sociopatterns
+      - radolfzell_great_tits_ontogeny
+      - wytham_great_tits_divorce
+    max_contexts_per_dataset: 1
+    continuation_blocks: 4
+    enforce_scientific_gate: false
+  full:
+    datasets:
+      - oxford_wildbird_network
+      - guinea_baboons_sociopatterns
+      - domestic_sheep_sirtrack
+      - wytham_great_tits_divorce
+      - radolfzell_great_tits_ontogeny
+      - experimental_wild_songbirds
+    max_contexts_per_dataset: null
+    continuation_blocks: 8
+    enforce_scientific_gate: true
+
+execution:
+  resume: true
+
+outputs:
+  results_root: results
+  report_root: reports/learnability

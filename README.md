@@ -86,6 +86,14 @@ Figures are written to `paper/figures/`. In the reviewer archive, the manuscript
 - Zi Zhu, Harvard T.H. Chan School of Public Health, Harvard University. Corresponding author: zizhu@hsph.harvard.edu
 - Ruo Yan Hou, Boston University Aram V. Chobanian & Edward Avedisian School of Medicine. sunnyhou@bu.edu
 
+Zi Zhu led the study design and all computational work, including data engineering, formal analysis, methodology, software, simulation, validation, visualisation, and manuscript drafting. Ruo Yan Hou contributed biological-domain expertise, identification and assessment of animal-interaction datasets, validation of biological interpretations, supporting literature research, and manuscript review and editing.
+
+## Licensing
+
+- Original software source and test code are released under the [MIT License](LICENSE).
+- Author-owned portions of derived datasets, result tables, repository figures, and documentation are released under [CC BY 4.0](LICENSE-DATA-DOCS).
+- Third-party source data retain their original licenses and are not relicensed. `DATA_SOURCES.md` identifies the governing source terms for every dataset. Those terms continue to apply to any derivative that incorporates third-party material.
+
 ## Citation
 
 Use the metadata in `CITATION.cff`. Dataset-specific citations remain required and are listed in `DATA_SOURCES.md`.

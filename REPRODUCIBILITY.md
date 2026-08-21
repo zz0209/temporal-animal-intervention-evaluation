@@ -24,6 +24,8 @@ python -m pip check
 
 The Zenodo archive contains canonical processed tables for redistributable sources. Raw third-party payloads are excluded. Download any missing source archives using `DATA_SOURCES.md`, verify their checksums, place them in `data/<dataset_id>/raw/`, and run the corresponding adapter.
 
+Original project code is released under the MIT License. Author-owned portions of derived datasets, result tables, repository figures, and documentation are released under CC BY 4.0. These grants do not relicense third-party material. Source licenses recorded in `DATA_SOURCES.md` remain controlling wherever they apply.
+
 Verify the canonical data boundary with:
 
 ```bash

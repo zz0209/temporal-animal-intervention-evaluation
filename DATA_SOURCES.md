@@ -1,6 +1,6 @@
 # Third-party data sources
 
-Raw third-party payloads are excluded from the repository and release archive. Downloaded files must be verified before adapter execution. Processed derivatives are redistributed only when the recorded source terms permit it.
+Raw third-party payloads are excluded from the repository and release archive. Downloaded files must be verified before adapter execution. Processed derivatives are redistributed only when the recorded source terms permit it. No third-party dataset is relicensed by this project. The project CC BY 4.0 notice applies only to material for which the authors hold the necessary rights.
 
 | Dataset | Permanent source and version | Recorded licence | Acquisition checksum |
 |---|---|---|---|
@@ -15,4 +15,3 @@ Raw third-party payloads are excluded from the repository and release archive. D
 | Barn swallow EncounterNet calibration | [Dryad doi:10.5061/dryad.61f4v](https://doi.org/10.5061/dryad.61f4v), accessed 13 August 2026 | CC0 | `2c0ae828c33b5afbeead4d254958c0b7d8e3782af69db7b5619f3ba863020439` |
 
 Associated publications and observation semantics are recorded in each `data/<dataset_id>/README.md` and in `docs/DATA_SEMANTICS.md`.
-

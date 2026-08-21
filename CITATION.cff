@@ -2,6 +2,7 @@ cff-version: 1.2.0
 title: Prospective evaluation of individual and joint epidemic interventions across temporal animal networks
 message: Please cite the accompanying article and all datasets used in an analysis.
 type: software
+license: MIT
 authors:
   - family-names: Zhu
     given-names: Zi
@@ -14,4 +15,3 @@ authors:
 version: 1.0.0
 date-released: 2026-08-20
 repository-code: https://github.com/zz0209/temporal-animal-intervention-evaluation
-

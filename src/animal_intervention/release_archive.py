@@ -23,6 +23,8 @@ ROOT_FILES = {
     ".gitignore",
     "CITATION.cff",
     "DATA_SOURCES.md",
+    "LICENSE",
+    "LICENSE-DATA-DOCS",
     "README.md",
     "REPRODUCIBILITY.md",
     "pyproject.toml",

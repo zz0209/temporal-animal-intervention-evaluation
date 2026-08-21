@@ -7,6 +7,7 @@ name = "temporal-animal-intervention-evaluation"
 version = "1.0.0"
 description = "Prospective evaluation of epidemic intervention policies on temporal animal interaction networks"
 readme = "README.md"
+license = "MIT"
 requires-python = ">=3.11"
 authors = [
   {name = "Zi Zhu", email = "zizhu@hsph.harvard.edu"},
@@ -20,4 +21,3 @@ where = ["src"]
 pythonpath = ["src"]
 testpaths = ["tests"]
 addopts = "-ra"
-

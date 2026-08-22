@@ -44,6 +44,29 @@ design:
   prohibit_threshold_changes: true
   prohibit_post_hoc_method_selection: true
 
+release_readiness:
+  - item: Frozen artifact integrity
+    status: complete
+    note: All selected source audits pass and hashes are recorded.
+  - item: Comparison breadth
+    status: complete
+    note: Ten method and control families are represented.
+  - item: Robustness and transportability
+    status: complete
+    note: Model, observation, delivery, rewiring, and complete-family deletion checks are represented.
+  - item: Clean evidence rebuild
+    status: complete
+    note: The manuscript-facing evidence chain was rebuilt from an empty isolated output tree and reconciled without scientific mismatches.
+  - item: Citation and permission audit
+    status: complete
+    note: References, source licences, redistribution boundaries, and figure provenance were audited for the reviewer release.
+  - item: Manuscript assembly
+    status: complete
+    note: The main article, electronic supplementary material, figures, tables, and availability statements are included in the reviewer release.
+  - item: Field validation
+    status: outside study scope
+    note: The study reports simulation-based counterfactual evaluation on observed contact histories and makes no claim of field effectiveness for a named pathogen.
+
 comparison_families:
   - method_family: Random/null
     node_ranking: true

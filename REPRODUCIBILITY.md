@@ -48,7 +48,7 @@ Complete verification with processed data and frozen results:
 python -m pytest -q
 ```
 
-The reviewer release contains 220 automated tests. In the archived environment, 211 pass and nine raw-adapter tests are skipped because third-party raw payloads are not redistributed. After downloading and checksum-verifying the sources listed in `DATA_SOURCES.md`, the same command exercises every adapter.
+The reviewer release contains 221 automated tests. In the archived environment, 212 pass and nine raw-adapter tests are skipped because third-party raw payloads are not redistributed. After downloading and checksum-verifying the sources listed in `DATA_SOURCES.md`, the same command exercises every adapter.
 
 ## Manuscript evidence rebuild
 
@@ -57,7 +57,7 @@ python -m animal_intervention.experiments.submission_rebuild --profile smoke
 python -m animal_intervention.experiments.submission_rebuild --profile full
 ```
 
-The smoke profile checks orchestration and artifact contracts. The full profile rebuilds the manuscript-facing analytical chain and verifies tabular and image outputs against the frozen release.
+The smoke profile checks orchestration and artifact contracts. The full profile rebuilds the manuscript-facing analytical chain and verifies tabular outputs and archived report figures against the frozen release. Files under `reports/` provide the visual references used by this audit; publication figures are generated separately from frozen family-level result tables.
 
 ## Figure generation
 

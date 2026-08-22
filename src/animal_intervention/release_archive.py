@@ -80,7 +80,17 @@ def include_path(root: Path, path: Path) -> bool:
 
 def collect_files(root: Path) -> list[Path]:
     files: set[Path] = {root / name for name in ROOT_FILES}
-    for directory in (".github", "configs", "data", "docs", "paper", "results", "src", "tests"):
+    for directory in (
+        ".github",
+        "configs",
+        "data",
+        "docs",
+        "paper",
+        "reports",
+        "results",
+        "src",
+        "tests",
+    ):
         base = root / directory
         files.update(
             path for path in base.rglob("*") if path.is_file() and include_path(root, path)

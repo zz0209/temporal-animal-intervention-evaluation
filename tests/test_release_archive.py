@@ -37,8 +37,12 @@ def test_archive_keeps_source_models_but_excludes_result_artifacts(
         path = root / name
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text("release test\n", encoding="utf-8")
-    for directory in (".github", "configs", "data", "docs", "paper", "tests"):
+    for directory in (".github", "configs", "data", "docs", "paper", "reports", "tests"):
         (root / directory).mkdir(parents=True, exist_ok=True)
+
+    report_reference = root / "reports" / "experiment" / "full" / "figure.png"
+    report_reference.parent.mkdir(parents=True)
+    report_reference.write_bytes(b"frozen figure reference")
 
     canonical_release = root / "data" / "_shared" / "canonical_release.json"
     canonical_release.parent.mkdir(parents=True)
@@ -69,5 +73,6 @@ def test_archive_keeps_source_models_but_excludes_result_artifacts(
     assert "src/animal_intervention/models/__init__.py" in released
     assert "src/animal_intervention/models/set_value.py" in released
     assert "data/oxford_wildbird_network/processed/dataset_metadata.json" in released
+    assert "reports/experiment/full/figure.png" in released
     assert "results/experiment/models/fitted.pt" not in released
     assert result["file_count"] == len(released) - 1

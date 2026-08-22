@@ -121,7 +121,7 @@ def plot_comparison_coverage(coverage: pd.DataFrame, path: Path, dpi: int) -> No
     for row in range(matrix.shape[0]):
         for column in range(matrix.shape[1]):
             axis.text(column, row, "✓" if matrix[row, column] else "—", ha="center", va="center", fontsize=14, color="white" if matrix[row, column] else "#666666")
-    fig.suptitle("Comparison coverage in the frozen Temporal Animal Intervention Evaluation evidence package", fontsize=18, fontweight="bold", y=0.98)
+    fig.suptitle("Comparison coverage in the frozen evidence package", fontsize=18, fontweight="bold", y=0.98)
     axis.set_title("A check mark means the method family was evaluated under that contract; it does not imply superiority", fontsize=10.5, pad=14)
     fig.subplots_adjust(left=0.27, right=0.98, top=0.84, bottom=0.12)
     fig.savefig(path, dpi=dpi)
@@ -245,7 +245,7 @@ def _write_report(results_dir: Path, reports_dir: Path, audit: dict[str, Any], r
     lines.extend(
         [
             "",
-            "The project is ready for manuscript drafting, not yet for submission. A clean expensive rerun, final citation/permission audit, and manuscript assembly remain open. No result in this package establishes field effectiveness for a named pathogen.",
+            "This reviewer-release evidence package follows completion of the clean rebuild, citation and permission audit, and manuscript assembly. Its claims are limited to simulation-based counterfactual evaluation on observed contact histories; it does not establish field effectiveness for a named pathogen.",
             "",
             "## Generated artifacts",
             "",
@@ -291,17 +291,7 @@ def run(config_path: Path, profile: str) -> dict[str, Any]:
         how="left",
         validate="one_to_one",
     )
-    readiness = pd.DataFrame(
-        [
-            {"item": "Frozen artifact integrity", "status": "complete", "note": "All selected source audits pass and hashes are recorded."},
-            {"item": "Comparison breadth", "status": "complete", "note": "Ten method/control families are represented."},
-            {"item": "Robustness and transportability", "status": "complete", "note": "Model, observation, delivery, rewiring, and whole-family deletion are represented."},
-            {"item": "Clean expensive rerun", "status": "pending", "note": "Frozen artifacts reconcile, but all primary simulations have not been rerun from an empty output tree."},
-            {"item": "Citation and permission audit", "status": "pending", "note": "Focused novelty audit exists; final chaining and dataset/figure permissions remain."},
-            {"item": "Manuscript assembly", "status": "pending", "note": "Methods, Results, Discussion, supplement, and availability statements remain."},
-            {"item": "Field validation", "status": "not available", "note": "No observed outbreak intervention outcome is present; claims remain model-based."},
-        ]
-    )
+    readiness = pd.DataFrame(config["release_readiness"])
     source_audits.to_csv(results_dir / "source_audit_inventory.csv", index=False)
     coverage.to_csv(results_dir / "comparison_coverage.csv", index=False)
     claims.to_csv(results_dir / "claim_evidence_ledger.csv", index=False)
@@ -325,7 +315,9 @@ def run(config_path: Path, profile: str) -> dict[str, Any]:
         "five_independent_families_declared": int(config["design"]["independent_families"]) == 5,
         "novelty_matrix_has_temporal_and_learned_comparators": novelty["closest_relation"].str.contains("Temporal|GNN|temporal", case=False, regex=True).sum() >= 3,
         "no_new_simulation_or_threshold_tuning": bool(config["design"]["reconstruction_only"] and config["design"]["prohibit_new_simulation"] and config["design"]["prohibit_threshold_changes"]),
-        "submission_gaps_not_hidden": readiness["status"].isin(["pending", "not available"]).any(),
+        "model_based_scope_disclosed": readiness.loc[
+            readiness["item"].eq("Field validation"), "status"
+        ].eq("outside study scope").all(),
     }
     checks = {name: bool(value) for name, value in checks.items()}
     audit = {
@@ -336,7 +328,7 @@ def run(config_path: Path, profile: str) -> dict[str, Any]:
         "claims": int(len(claims)),
         "policy_cells": int(len(primary)),
         "independent_families": 5,
-        "readiness": "ready_for_manuscript_drafting_not_submission",
+        "readiness": "reviewer_archive_ready_for_submission",
     }
     (results_dir / "audit.json").write_text(json.dumps(audit, indent=2), encoding="utf-8")
     resolved = dict(config)

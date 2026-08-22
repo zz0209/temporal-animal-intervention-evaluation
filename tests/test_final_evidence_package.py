@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import pandas as pd
+import yaml
 
 from animal_intervention.experiments.final_evidence_package import (
     load_source_audits,
@@ -28,3 +29,16 @@ def test_primary_table_reconciliation_detects_decision_change() -> None:
     assert reconcile_primary_tables(decision, taxonomy, resilience) is True
     taxonomy.loc[0, "decision"] = "abstain"
     assert reconcile_primary_tables(decision, taxonomy, resilience) is False
+
+
+def test_release_readiness_has_no_stale_development_gate() -> None:
+    config = yaml.safe_load(
+        Path("configs/EXP-20260817-009_final_evidence_package.yaml").read_text(
+            encoding="utf-8"
+        )
+    )
+    readiness = pd.DataFrame(config["release_readiness"])
+    assert not readiness["status"].eq("pending").any()
+    assert readiness.loc[
+        readiness["item"].eq("Field validation"), "status"
+    ].eq("outside study scope").all()

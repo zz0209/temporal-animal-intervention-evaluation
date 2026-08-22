@@ -60,11 +60,11 @@ python -m animal_intervention.data.release --verify
 python -m pytest -q
 ```
 
-The frozen reviewer release reports `Verified 9 canonical datasets`, followed by 211 passing tests and nine skipped raw-adapter tests. The nine adapters can be exercised after downloading and checksum-verifying the source archives listed in `DATA_SOURCES.md`.
+The frozen reviewer release reports `Verified 9 canonical datasets`, followed by 212 passing tests and nine skipped raw-adapter tests. The nine adapters can be exercised after downloading and checksum-verifying the source archives listed in `DATA_SOURCES.md`.
 
 ## Full reproduction
 
-The full manuscript-facing evidence rebuild starts from the archived processed data and frozen precision-audited intermediate results. It reruns every analytical stage used in the manuscript and compares generated tables and figures with the archived outputs.
+The full manuscript-facing evidence rebuild starts from the archived processed data and frozen precision-audited intermediate results. It reruns every analytical stage used in the manuscript and compares generated tables and report figures with the archived outputs. The frozen report figures are included under `reports/` solely as visual reconciliation references.
 
 ```bash
 python -m animal_intervention.experiments.submission_rebuild --profile smoke

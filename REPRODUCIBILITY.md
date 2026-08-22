@@ -22,7 +22,7 @@ python -m pip check
 
 ## Data
 
-The Zenodo archive contains all nine canonical processed datasets required by the manuscript analyses. Raw third-party payloads are excluded. Download source archives using `DATA_SOURCES.md`, verify their checksums, place them in `data/<dataset_id>/raw/`, and run the corresponding adapter only when reprocessing from raw data or exercising raw-adapter tests.
+The [Zenodo archive](https://doi.org/10.5281/zenodo.22051968) contains all nine canonical processed datasets required by the manuscript analyses. Raw third-party payloads are excluded. Download source archives using `DATA_SOURCES.md`, verify their checksums, place them in `data/<dataset_id>/raw/`, and run the corresponding adapter only when reprocessing from raw data or exercising raw-adapter tests.
 
 Original project code is released under the MIT License. Author-owned portions of derived datasets, result tables, repository figures, and documentation are released under CC BY 4.0. These grants do not relicense third-party material. Source licenses recorded in `DATA_SOURCES.md` remain controlling wherever they apply.
 

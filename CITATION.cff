@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 title: Prospective evaluation of individual and joint epidemic interventions across temporal animal networks
-message: Please cite the accompanying article and all datasets used in an analysis.
+message: Please cite this archive and all source datasets used in an analysis.
 type: software
 license: MIT
 authors:
@@ -13,5 +13,7 @@ authors:
     affiliation: Boston University Aram V. Chobanian & Edward Avedisian School of Medicine
     email: sunnyhou@bu.edu
 version: 1.0.0
-date-released: 2026-08-20
+date-released: 2026-08-22
+doi: 10.5281/zenodo.22051968
 repository-code: https://github.com/zz0209/temporal-animal-intervention-evaluation
+repository-artifact: https://doi.org/10.5281/zenodo.22051968

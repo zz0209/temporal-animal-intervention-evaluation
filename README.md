@@ -2,6 +2,8 @@
 
 This repository accompanies the study **Prospective evaluation of individual and joint epidemic interventions across temporal animal networks**. It provides a common event-level interface for heterogeneous animal interaction records, paired temporal epidemic simulations, prospective intervention-value labels, cross-system evaluation, and publication figure generation.
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22051968.svg)](https://doi.org/10.5281/zenodo.22051968)
+
 The analysis asks three connected questions.
 
 1. Can contact history identify animals with high marginal intervention value in a later outbreak?
@@ -22,7 +24,7 @@ src/animal_intervention/ Analysis and simulation package
 tests/                   Unit, contract, provenance, and experiment audits
 ```
 
-Raw third-party archives are not redistributed. `DATA_SOURCES.md` lists the permanent source, release or access version, licence, and checksum for every input. The Zenodo reviewer archive includes the complete canonical processed-data release. Oxford derivatives retain the Network Repository Creative Commons Attribution-ShareAlike terms and include source attribution, a modification statement, and processed-file checksums.
+Raw third-party archives are not redistributed. `DATA_SOURCES.md` lists the permanent source, release or access version, licence, and checksum for every input. The [Zenodo reproducibility archive](https://doi.org/10.5281/zenodo.22051968) includes the complete canonical processed-data release. Oxford derivatives retain the Network Repository Creative Commons Attribution-ShareAlike terms and include source attribution, a modification statement, and processed-file checksums.
 
 ## Installation
 
@@ -101,4 +103,4 @@ Zi Zhu led the study design and all computational work, including data engineeri
 
 ## Citation
 
-Use the metadata in `CITATION.cff`. Dataset-specific citations remain required and are listed in `DATA_SOURCES.md`.
+Use the metadata in `CITATION.cff` and cite the archived release with DOI [10.5281/zenodo.22051968](https://doi.org/10.5281/zenodo.22051968). Dataset-specific citations remain required and are listed in `DATA_SOURCES.md`.
